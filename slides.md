@@ -4,14 +4,28 @@ theme: default
 fonts:
   sans: Roboto
   serif: Roboto Slab
-  mono: Fira Code
+  mono: Fira Mono
 defaults:
   layout: default
 selectable: true
-colorSchema: dark
 ---
 
 # 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
+
+---
+
+## 簡報連結
+
+<div class="flex items-center">
+  <div>
+    <Transform :scale="0.6">
+      <img src="/pics/qr_code.png" />
+    </Transform>
+  </div>
+  <div>
+    <a href="https://viecon.github.io/mygo-slide-slidev/">https://viecon.github.io/mygo-slide-slidev/</a>
+  </div>
+</div>
 
 ---
 
@@ -36,7 +50,7 @@ layout: center
 
 ### 架構簡介
 
-![專案整體架構圖](./pics/whole_structure.png)
+![專案整體架構圖](/pics/whole_structure.png)
 [專案程式碼連結 (Code)](https://github.com/godempty/MyGo_Flipper)
 
 ---
@@ -75,6 +89,7 @@ Prompt Engineering
 請將以下句子翻譯成法語：
 "The book is on the table."
 ```
+
 
 ---
 
@@ -214,7 +229,7 @@ pip install google-genai
 
 ### 範例
 
-```py {lines:true}
+```py {*}{lines:true}
 import google.generativeai as genai
 
 # 請將 "YOUR_API_KEY" 替換成你自己的 API Key
@@ -231,13 +246,27 @@ print(response.text)
 
 ### API rate
 
-![API rate](./pics/gemini_API_rate.png)
+
+<LightOrDark>
+  <template #dark>
+    <Transform :scale="0.75">
+        <img src="/pics/gemini_API_rate_dark.png" />
+    </Transform>
+  </template>
+
+  <template #light>
+    <Transform :scale="0.75">
+          <img src="/pics/gemini_API_rate.png" />
+    </Transform>
+  </template>
+</LightOrDark>
+
 
 ---
 
 ### 回顧上次社課
 
-![last_slide](./pics/last_slide.png)
+![last_slide](/pics/last_slide.png)
 
 ---
 layout: center
@@ -249,7 +278,7 @@ layout: center
 
 ### 語音辨識
 
-```py {lines:true}
+```py {*}{lines:true}
 import google.generativeai as genai
 
 def transcribe_audio(audio_content):
@@ -270,7 +299,7 @@ def transcribe_audio(audio_content):
 
 Load word list
 
-```py {lines:true}
+```py {*}{lines:true}
 import json
 
 # 假設梗圖台詞與編號儲存在 words.json
@@ -306,7 +335,7 @@ Role prompting, Few-shot Prompting
 **現在，開始吧！**
 ```
 
-```python
+```py {*}{lines:true}
 prompt = f"""
 你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
 

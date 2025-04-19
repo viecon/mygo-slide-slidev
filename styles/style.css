@@ -6,15 +6,15 @@
   }
 
   h1 {
-    --uno: text-[2em] text-gray-200;
+    --uno: text-[2em] light:text-gray-900 dark:text-gray-200;
   }
 
   h2 {
-    --uno: text-[1.6em] text-gray-200;
+    --uno: text-[1.6em] light:text-gray-900 dark:text-gray-200;
   }
 
   h3 {
-    --uno: text-[1.3em] text-gray-300;
+    --uno: text-[1.3em] light:text-gray-900 dark:text-gray-300;
   }
 
   p {
@@ -35,12 +35,12 @@
   }
 
   img {
-    --uno: max-w-[85%] h-auto block my-[1.2em] mx-auto border border-gray-200 dark:border-gray-600 rounded-[4px];
+    --uno: max-w-[85%] h-auto block my-[1.2em] mx-auto border light:border-gray-200 dark:border-gray-600 rounded-[4px];
   }
 
   blockquote {
-    --uno: m-[1em_0_1em_1.5em] pl-[1.2em] border-l-[4px] border-gray-300 dark:border-gray-600
-            text-gray-600 dark:text-gray-300 italic;
+    --uno: m-[1em_0_1em_1.5em] pl-[1.2em] border-l-[4px] light:border-gray-300 dark:border-gray-600
+    light:text-gray-600 dark:text-gray-400 italic;
   }
 
   a {
@@ -61,5 +61,8 @@
 
   .chapterTitle {
     --uno: text-[3em] text-[#888] text-center ;
+  }
+  .center {
+    --uno: text-center ;
   }
 }
