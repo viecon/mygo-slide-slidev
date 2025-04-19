@@ -316,9 +316,53 @@ words = json.loads(json_data.read())
 
 ### Prompt
 
-Role prompting, Few-shot Prompting
+<v-switch>
+  <template #0> Zero-shot Prompting </template>
+  <template #1> Role Prompting </template>
+  <template #2> Role Prompting + One-shot Prompting </template>
+  <template #3> Role Prompting + Few-shot Prompting </template>
+  <template #4> Full prompt </template>
+</v-switch>
 
-````md magic-move
+````md magic-move {at: 1}
+
+```md
+你的任務是：
+1.  **理解我的對話內容。**
+2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
+3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
+
+**以下是你可以選擇的台詞:**
+(台詞)
+```
+
+```md
+你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
+
+你的任務是：
+1.  **理解我的對話內容。**
+2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
+3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
+
+**以下是你可以選擇的台詞:**
+(台詞)
+```
+
+```md
+你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
+
+你的任務是：
+1.  **理解我的對話內容。**
+2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
+3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
+
+**以下是你可以選擇的台詞:**
+(台詞)
+
+**舉例：**
+如果我的對話是 "早安"，你應該選擇「貴安」或是「早安喵姆喵姆」這句台詞回覆。
+```
+
 ```md
 你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
 
@@ -336,7 +380,6 @@ Role prompting, Few-shot Prompting
 但你也需要注意，這些台詞是來自動畫中的角色，所以有些台詞可能不適合用在所有情境中。
 **舉例：**
 如果我的對話是 "你為甚麼不理我"，你可以選擇「是這樣嗎」，或是「我還是會繼續下去」回覆。
-**現在，開始吧！**
 ```
 
 ```py {*}{lines:true}
@@ -357,7 +400,6 @@ prompt = f"""
 但你也需要注意，這些台詞是來自動畫中的角色，所以有些台詞可能不適合用在所有情境中。
 **舉例：**
 如果我的對話是 "你為甚麼不理我"，你可以選擇「是這樣嗎」，或是「我還是會繼續下去」回覆。
-**現在，開始吧！**
 """
 ```
 
@@ -484,7 +526,7 @@ int cur_pos = 0;
 
 Connect to WIFI and start the server.
 
-```cpp {3-4|6-12|13-15|17-20|21-22|*}{maxHeight:'350px', lines:true}
+```cpp {1|3-4|6-12|13-15|17-20|21-22|*}{maxHeight:'350px', lines:true}
 void setup()
 {
     // Start Serial communication
