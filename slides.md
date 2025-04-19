@@ -12,12 +12,6 @@ selectable: true
 favicon: '/pics/favicon.jpg'
 title: 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 titleTemplate: '陽明交大創客俱樂部社課 - AI 梗圖翻頁機'
-
-addons:
-  - slidev-addon-python-runner
-
-python:
-  installs: ["google-genai"]
 ---
 
 
@@ -240,16 +234,14 @@ pip install google-genai
 
 ### 範例
 
-```py {monaco-run} {autorun:false}
-import google.generativeai as genai
+```py {*}{lines: true}
+from google import genai
+client = genai.Client(api_key="YOUR_API_KEY")
 
-# 請將 "YOUR_API_KEY" 替換成你自己的 API Key
-genai.configure(api_key="YOUR_API_KEY", transport="rest")
-
-# 選擇要使用的模型 (這裡使用 gemini-2.0-flash)
-model = genai.GenerativeModel("gemini-2.0-flash")
-response = model.generate_content("講個冷笑話")
-
+response = client.models.generate_content(
+    model='gemini-2.0-flash',
+    contents='講個冷笑話'
+)
 print(response.text)
 ```
 
