@@ -576,9 +576,10 @@ void move_to(int tar)
   <template #2> Parse JSON </template>
   <template #3> Get position inside body </template>
   <template #4> Control stepper </template>
+  <template #5> API endpoint </template>
 </v-switch>
 
-```cpp {*|3-11|13-23|25-29|30-31}{maxHeight:'400px', lines:true, at:1}
+```cpp {*|3-11|13-23|25-29|30-31|*}{maxHeight:'400px', lines:true, at:1}
 void handlePostData()
 {
     if (server.method() != HTTP_POST)
@@ -623,7 +624,7 @@ layout: center
 
 建立一個檔案 `esp32_control.py` 來處理與 ESP32 的通訊：
 
-```py {*}{lines:true}
+```py {1|3-5|8-11|*}{lines:true}
 import requests
 
 ESP_IP = "ESP32's IP"  # 填入 ESP32 的 IP
@@ -641,7 +642,7 @@ def control_esp(value):
 
 修改 app.py (Flask 後端)，在得到 Gemini 回應後呼叫 control_esp：
 
-```py {*|17}{lines:true}
+```py {17}{lines:true}
 import esp32_control as esp32_control
 
 @app.route("/api/transcribe", methods=["POST"])
