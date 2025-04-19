@@ -9,7 +9,7 @@ fonts:
 defaults:
   layout: default
 selectable: true
-favicon: 'https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/274109583_1708416819366104_376739205243155719_n.jpg'
+favicon: '/pics/favicon.jpg'
 title: 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 titleTemplate: '陽明交大創客俱樂部社課 - AI 梗圖翻頁機'
 ---
@@ -590,7 +590,7 @@ layout: center
 ```py {*}{lines:true}
 import requests
 
-ESP_IP = "192.168.50.214"
+ESP_IP = "ESP32's IP"  # 填入 ESP32 的 IP
 ESP_PORT = 80
 ESP_API_URL = f"http://{ESP_IP}:{ESP_PORT}/spin"
 
