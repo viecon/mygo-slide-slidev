@@ -1,639 +1,841 @@
 ---
-# You can also start simply with 'default'
-theme: seriph
-# random image from a curated Unsplash collection by Anthony
-# like them? see https://unsplash.com/collections/94734566/slidev
-background: https://cover.sli.dev
-# some information about your slides (markdown enabled)
-title: Welcome to Slidev
-info: |
-  ## Slidev Starter Template
-  Presentation slides for developers.
-
-  Learn more at [Sli.dev](https://sli.dev)
-# apply unocss classes to the current slide
-class: text-center
-# https://sli.dev/features/drawing
-drawings:
-  persist: false
-# slide transition: https://sli.dev/guide/animations.html#slide-transitions
-transition: slide-left
-# enable MDC Syntax: https://sli.dev/features/mdc
-mdc: true
-# open graph
-# seoMeta:
-#  ogImage: https://cover.sli.dev
+layout: center
+theme: default
+fonts:
+  sans: Roboto
+  serif: Roboto Slab
+  mono: Fira Code
+defaults:
+  layout: default
+selectable: true
+colorSchema: dark
 ---
 
-# Welcome to Slidev
+# 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 
-Presentation slides for developers
+---
 
-<div @click="$slidev.nav.next" class="mt-12 py-1" hover:bg="white op-10">
-  Press Space for next page <carbon:arrow-right />
+## Content
+
+1. 架構簡介
+2. Prompt engineering
+3. API 串接
+4. ESP32 程式撰寫
+5. Docker (有時間的話)
+6. 這篇簡報 (真的還有時間的話)
+
+---
+layout: center
+---
+
+<div class="chapterTitle">
+架構簡介
 </div>
 
-<div class="abs-br m-6 text-xl">
-  <button @click="$slidev.nav.openInEditor()" title="Open in Editor" class="slidev-icon-btn">
-    <carbon:edit />
-  </button>
-  <a href="https://github.com/slidevjs/slidev" target="_blank" class="slidev-icon-btn">
-    <carbon:logo-github />
-  </a>
+---
+
+### 架構簡介
+
+![專案整體架構圖](./pics/whole_structure.png)
+[專案程式碼連結 (Code)](https://github.com/godempty/MyGo_Flipper)
+
+---
+layout: center
+---
+
+<div class="chapterTitle">
+Prompt Engineering
 </div>
 
-<!--
-The last comment block of each slide will be treated as slide notes. It will be visible and editable in Presenter Mode along with the slide. [Read more in the docs](https://sli.dev/guide/syntax.html#notes)
--->
-
----
-transition: fade-out
 ---
 
-# What is Slidev?
+### 什麼是大型語言模型?
 
-Slidev is a slides maker and presenter designed for developers, consist of the following features
+> it’s a prediction engine. The model takes sequential text as an input and then predicts what the following token should be, based on the data it was trained on. The LLM is operationalized to do this over and over again, adding the previously predicted token to the end of the sequential text for predicting the following token. The next token prediction is based on the relationship between what’s in the previous tokens and what the LLM has seen during its training.
 
-- 📝 **Text-based** - focus on the content with Markdown, and then style them later
-- 🎨 **Themable** - themes can be shared and re-used as npm packages
-- 🧑‍💻 **Developer Friendly** - code highlighting, live coding with autocompletion
-- 🤹 **Interactive** - embed Vue components to enhance your expressions
-- 🎥 **Recording** - built-in recording and camera view
-- 📤 **Portable** - export to PDF, PPTX, PNGs, or even a hostable SPA
-- 🛠 **Hackable** - virtually anything that's possible on a webpage is possible in Slidev
-<br>
-<br>
-
-Read more about [Why Slidev?](https://sli.dev/guide/why)
-
-<!--
-You can have `style` tag in markdown to override the style for the current page.
-Learn more: https://sli.dev/features/slide-scope-style
--->
-
-<style>
-h1 {
-  background-color: #2B90B6;
-  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
-  background-size: 100%;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-}
-</style>
-
-<!--
-Here is another comment.
--->
+**簡單來說：** LLM 就像一個超強的文字接龍大師，它根據你給它的文字序列（輸入），預測下一個最可能出現的字詞是什麼，這個預測是基於它在大量資料中學習到的模式。
 
 ---
-transition: slide-up
-level: 2
----
 
-# Navigation
+### 什麼是 Prompt Engineering？
 
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
+- 是設計與優化提示語 (`prompts`) 以引導 **大型語言模型 (Large Language Models, LLMs)** 產生期望輸出的技術。
+- 透過精心設計的提示詞，提高模型在各種任務上的表現與可靠性。
+- ~~賽博巫術~~
 
-## Keyboard Shortcuts
-
-|                                                     |                             |
-| --------------------------------------------------- | --------------------------- |
-| <kbd>right</kbd> / <kbd>space</kbd>                 | next animation or slide     |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd>                                       | previous slide              |
-| <kbd>down</kbd>                                     | next slide                  |
-
-<!-- https://sli.dev/guide/animations.html#click-animation -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
+[參考資料：Prompt Engineering - Lee Boonstra](https://www.kaggle.com/whitepaper-prompt-engineering)
 
 ---
-layout: two-cols
-layoutClass: gap-16
----
 
-# Table of contents
+### Zero-Shot
 
-You can use the `Toc` component to generate a table of contents for your slides:
+定義： 直接給予模型任務指令，無需提供例子。
 
-```html
-<Toc minDepth="1" maxDepth="1" />
+```text
+請將以下句子翻譯成法語：
+"The book is on the table."
 ```
 
-The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
-
-::right::
-
-<Toc text-sm minDepth="1" maxDepth="2" />
-
----
-layout: image-right
-image: https://cover.sli.dev
 ---
 
-# Code
+### One-Shot
 
-Use code snippets and get the highlighting directly, and even types hover!
+定義： 提供一個例子，幫助模型理解任務格式與期望輸出。
 
-```ts {all|5|7|7-8|10|all} twoslash
-// TwoSlash enables TypeScript hover information
-// and errors in markdown code blocks
-// More at https://shiki.style/packages/twoslash
-
-import { computed, ref } from 'vue'
-
-const count = ref(0)
-const doubled = computed(() => count.value * 2)
-
-doubled.value = 2
+```text
+英文：Hello → 法文：Bonjour
+英文：Goodbye → 法文：
 ```
 
-<arrow v-click="[4, 5]" x1="350" y1="310" x2="195" y2="334" color="#953" width="2" arrowSize="1" />
-
-<!-- This allow you to embed external code blocks -->
-<<< @/snippets/external.ts#snippet
-
-<!-- Footer -->
-
-[Learn more](https://sli.dev/features/line-highlighting)
-
-<!-- Inline style -->
-<style>
-.footnotes-sep {
-  @apply mt-5 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
-}
-</style>
-
-<!--
-Notes can also sync with clicks
-
-[click] This will be highlighted after the first click
-
-[click] Highlighted with `count = ref(0)`
-
-[click:3] Last click (skip two clicks)
--->
-
----
-level: 2
 ---
 
-# Shiki Magic Move
+### Few-Shot
 
-Powered by [shiki-magic-move](https://shiki-magic-move.netlify.app/), Slidev supports animations across multiple code snippets.
+定義： 提供多個例子，幫助模型理解任務格式與期望輸出。
 
-Add multiple code blocks and wrap them with <code>````md magic-move</code> (four backticks) to enable the magic move. For example:
-
-````md magic-move {lines: true}
-```ts {*|2|*}
-// step 1
-const author = reactive({
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-})
+```text
+英文：I love you → 法文：Je t'aime
+英文：Good morning → 法文：Bonjour
+英文：Thank you → 法文：
 ```
 
-```ts {*|1-2|3-4|3-4,8}
-// step 2
-export default {
-  data() {
-    return {
-      author: {
-        name: 'John Doe',
-        books: [
-          'Vue 2 - Advanced Guide',
-          'Vue 3 - Basic Guide',
-          'Vue 4 - The Mystery'
+---
+
+### Chain-of-Thought (CoT)
+
+定義： 引導模型逐步推理，透過中間步驟來達成最終答案。
+
+```text
+There are 12 cookies. You eat 4 and give away 3. How many are left?
+Let's think step by step.
+```
+
+---
+
+### Role/Persona Prompting
+
+定義： 指定模型扮演特定角色，以影響其語氣與回應方式。
+
+```text
+你是一位歷史學家，請解釋羅馬帝國的衰落原因。
+```
+
+---
+
+### Contextual Prompting
+
+定義： 給模型一些背景知識，引導他產出想要的結果。
+
+```text
+The user is traveling to Japan in winter and is allergic to seafood.
+Suggest 2 Japanese meals.
+```
+
+---
+
+### Step-Back Prompting
+
+定義：先問廣泛問題以啟動知識，再解任務。
+
+Step-Back Prompt:
+
+```text
+What makes a job interview successful?
+```
+
+Answer:
+
+> Good communication, confidence, and understanding of the company.
+
+**Main Prompt (using above as context):**
+
+```text
+Write a checklist for preparing for a job interview using the contents above.
+```
+
+---
+
+### Automatic Prompt Engineering
+
+定義：用 AI 產生 Prompt。
+
+```text
+Generate 5 different ways to ask:
+"Show me the weather forecast for Tokyo."
+```
+
+---
+
+### 攻擊
+
+- Jail Breaking (越獄)： 繞過模型的安全限制，使其產生不當內容。
+- Prompt Injection (提示注入)： 將惡意指令注入提示中，操控模型行為。
+- ...等等
+
+[OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+
+[SITCON 2025 R2 ｜開發者的暗黑小紅帽：大野狼與 LLM ｜講者 slasho](https://youtu.be/ElhRVHl7xAc)
+
+---
+
+### 怎麼辦
+
+- 使用較新的模型： 新模型通常有更好的安全防護。
+- 權限最小化： 不要給予 LLM 過高的系統或資料存取權限。
+- 限制速率 (Rate Limiting)： 防止惡意使用者大量發送請求。
+- 輸入/輸出過濾： 檢查使用者輸入與模型輸出，過濾潛在惡意內容。
+- 多代理架構 (Multi-agent)： 讓不同功能的 AI 互相監督檢查。
+
+---
+layout: center
+---
+
+<div class="chapterTitle">
+API 串接
+</div>
+
+---
+layout: center
+---
+
+先去 [Google AI Studio](https://aistudio.google.com/app/apikey?hl=zh-tw) 取得 API key
+
+---
+layout: center
+---
+
+使用套件：
+
+```sh
+pip install google-genai
+```
+
+---
+
+### 範例
+
+```py {lines:true}
+import google.generativeai as genai
+
+# 請將 "YOUR_API_KEY" 替換成你自己的 API Key
+genai.configure(api_key="YOUR_API_KEY", transport="rest")
+
+# 選擇要使用的模型 (這裡使用 gemini-2.0-flash)
+model = genai.GenerativeModel("gemini-2.0-flash")
+response = model.generate_content("講個冷笑話")
+
+print(response.text)
+```
+
+---
+
+### API rate
+
+![API rate](./pics/gemini_API_rate.png)
+
+---
+
+### 回顧上次社課
+
+![last_slide](./pics/last_slide.png)
+
+---
+layout: center
+---
+
+### 這次要做的事情： 在後端 API (/api/transcribe) 接收一個 `wav` 聲音檔，讓 Gemini 理解語音內容後，根據內容選擇一張最適合的梗圖，最後回傳該圖片的編號。
+
+---
+
+### 語音辨識
+
+```py {lines:true}
+import google.generativeai as genai
+
+def transcribe_audio(audio_content):
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    result = model.generate_content(
+        [
+            "請將以下語音轉文字並直接輸出，如果有雜音可以忽略，如果全都是雜音或是無法分辨，請回覆「&$%$hu#did」",
+            {"mime_type": "audio/wav", "data": audio_content},
         ]
-      }
-    }
-  }
-}
+    )
+    app.logger.info(f"{result.text=}")
+    return result.text
 ```
 
-```ts
-// step 3
-export default {
-  data: () => ({
-    author: {
-      name: 'John Doe',
-      books: [
-        'Vue 2 - Advanced Guide',
-        'Vue 3 - Basic Guide',
-        'Vue 4 - The Mystery'
-      ]
-    }
-  })
-}
+---
+
+### Prompt
+
+Load word list
+
+```py {lines:true}
+import json
+
+# 假設梗圖台詞與編號儲存在 words.json
+# 格式應為 {"0": "台詞一", "1": "台詞二", ...}
+json_data = open("words.json", "r", encoding="utf-8")
+words = json.loads(json_data.read())
 ```
 
-Non-code blocks are ignored.
+---
 
-```vue
-<!-- step 4 -->
-<script setup>
-const author = {
-  name: 'John Doe',
-  books: [
-    'Vue 2 - Advanced Guide',
-    'Vue 3 - Basic Guide',
-    'Vue 4 - The Mystery'
-  ]
-}
-</script>
+### Prompt
+
+Role prompting, Few-shot Prompting
+
+````md magic-move
+```md
+你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
+
+你的主要任務是：
+1.  **理解我的對話內容。**
+2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
+3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
+
+**以下是你可以選擇的台詞:**
+(台詞)
+**舉例：**
+如果我的對話是 "早安"，你應該選擇「貴安」或是「早安喵姆喵姆」這句台詞回覆。
+
+必要時可以選擇最有趣的台詞回覆，但請確保回覆的內容與對話內容有關，可能是諧音或是反諷等等。
+但你也需要注意，這些台詞是來自動畫中的角色，所以有些台詞可能不適合用在所有情境中。
+**舉例：**
+如果我的對話是 "你為甚麼不理我"，你可以選擇「是這樣嗎」，或是「我還是會繼續下去」回覆。
+**現在，開始吧！**
 ```
+
+```python
+prompt = f"""
+你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
+
+你的主要任務是：
+1.  **理解我的對話內容。**
+2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
+3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
+
+**以下是你可以選擇的台詞:**
+{words}
+**舉例：**
+如果我的對話是 "早安"，你應該選擇「貴安」或是「早安喵姆喵姆」這句台詞回覆。
+
+必要時可以選擇最有趣的台詞回覆，但請確保回覆的內容與對話內容有關，可能是諧音或是反諷等等。
+但你也需要注意，這些台詞是來自動畫中的角色，所以有些台詞可能不適合用在所有情境中。
+**舉例：**
+如果我的對話是 "你為甚麼不理我"，你可以選擇「是這樣嗎」，或是「我還是會繼續下去」回覆。
+**現在，開始吧！**
+"""
+```
+
 ````
 
 ---
 
-# Components
-
-<div grid="~ cols-2 gap-4">
-<div>
-
-You can use Vue components directly inside your slides.
-
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
-
-```html
-<Counter :count="10" />
-```
-
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
-
-</div>
-<div>
-
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
-
-</div>
-</div>
-
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
-
----
-class: px-20
----
-
-# Themes
-
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
-
-<div grid="~ cols-2 gap-2" m="t-2">
-
-```yaml
----
-theme: default
----
-```
-
-```yaml
----
-theme: seriph
----
-```
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
-
-</div>
-
-Read more about [How to use a theme](https://sli.dev/guide/theme-addon#use-theme) and
-check out the [Awesome Themes Gallery](https://sli.dev/resources/theme-gallery).
-
----
-
-# Clicks Animations
-
-You can add `v-click` to elements to add a click animation.
-
-<div v-click>
-
-This shows up when you click the slide:
-
-```html
-<div v-click>This shows up when you click the slide.</div>
-```
-
-</div>
-
-<br>
-
-<v-click>
-
-The <span v-mark.red="3"><code>v-mark</code> directive</span>
-also allows you to add
-<span v-mark.circle.orange="4">inline marks</span>
-, powered by [Rough Notation](https://roughnotation.com/):
-
-```html
-<span v-mark.underline.orange>inline markers</span>
-```
-
-</v-click>
-
-<div mt-20 v-click>
-
-[Learn more](https://sli.dev/guide/animations#click-animation)
-
-</div>
-
----
-
-# Motions
-
-Motion animations are powered by [@vueuse/motion](https://motion.vueuse.org/), triggered by `v-motion` directive.
-
-```html
-<div
-  v-motion
-  :initial="{ x: -80 }"
-  :enter="{ x: 0 }"
-  :click-3="{ x: 80 }"
-  :leave="{ x: 1000 }"
->
-  Slidev
-</div>
-```
-
-<div class="w-60 relative">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-square.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-circle.png"
-      alt=""
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute inset-0"
-      src="https://sli.dev/logo-triangle.png"
-      alt=""
-    />
-  </div>
-
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
-</div>
-
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
-
-<div
-  v-motion
-  :initial="{ x:35, y: 30, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
-
-[Learn more](https://sli.dev/guide/animations.html#motion)
-
-</div>
-
----
-
-# LaTeX
-
-LaTeX is supported out-of-box. Powered by [KaTeX](https://katex.org/).
-
-<div h-3 />
-
-Inline $\sqrt{3x-1}+(1+x)^2$
-
-Block
-$$ {1|3|all}
-\begin{aligned}
-\nabla \cdot \vec{E} &= \frac{\rho}{\varepsilon_0} \\
-\nabla \cdot \vec{B} &= 0 \\
-\nabla \times \vec{E} &= -\frac{\partial\vec{B}}{\partial t} \\
-\nabla \times \vec{B} &= \mu_0\vec{J} + \mu_0\varepsilon_0\frac{\partial\vec{E}}{\partial t}
-\end{aligned}
-$$
-
-[Learn more](https://sli.dev/features/latex)
-
----
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-4 gap-5 pt-4 -mb-6">
-
-```mermaid {scale: 0.5, alt: 'A simple sequence diagram'}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-```mermaid
-mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    Research
-      On effectiveness<br/>and features
-      On Automatic creation
-        Uses
-            Creative techniques
-            Strategic planning
-            Argument mapping
-    Tools
-      Pen and paper
-      Mermaid
-```
-
-```plantuml {scale: 0.7}
-@startuml
-
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
-
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
-
-cloud {
-  [Example 1]
-}
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
-  }
-  frame "Foo" {
-    [Frame 4]
-  }
-}
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
-```
-
-</div>
-
-Learn more: [Mermaid Diagrams](https://sli.dev/features/mermaid) and [PlantUML Diagrams](https://sli.dev/features/plantuml)
-
----
-foo: bar
-dragPos:
-  square: 691,32,167,_,-16
----
-
-# Draggable Elements
-
-Double-click on the draggable elements to edit their positions.
-
-<br>
-
-###### Directive Usage
-
-```md
-<img v-drag="'square'" src="https://sli.dev/logo.png">
-```
-
-<br>
-
-###### Component Usage
-
-```md
-<v-drag text-3xl>
-  <div class="i-carbon:arrow-up" />
-  Use the `v-drag` component to have a draggable container!
-</v-drag>
-```
-
-<v-drag pos="663,206,261,_,-15">
-  <div text-center text-3xl border border-main rounded>
-    Double-click me!
-  </div>
-</v-drag>
-
-<img v-drag="'square'" src="https://sli.dev/logo.png">
-
-###### Draggable Arrow
-
-```md
-<v-drag-arrow two-way />
-```
-
-<v-drag-arrow pos="67,452,253,46" two-way op70 />
-
----
-src: ./pages/imported-slides.md
-hide: false
----
-
----
-
-# Monaco Editor
-
-Slidev provides built-in Monaco Editor support.
-
-Add `{monaco}` to the code block to turn it into an editor:
-
-```ts {monaco}
-import { ref } from 'vue'
-import { emptyArray } from './external'
-
-const arr = ref(emptyArray(10))
-```
-
-Use `{monaco-run}` to create an editor that can execute the code directly in the slide:
-
-```ts {monaco-run}
-import { version } from 'vue'
-import { emptyArray, sayHello } from './external'
-
-sayHello()
-console.log(`vue ${version}`)
-console.log(emptyArray<number>(10).reduce(fib => [...fib, fib.at(-1)! + fib.at(-2)!], [1, 1]))
+### API
+
+```py {1-4|6-8|9-15|*}{lines:true}
+@app.route("/api/transcribe", methods=["POST"])                   # 定義一個路由，處理 POST 請求，路徑為 /api/transcribe
+def transcribe():                                                 # 定義一個名為 transcribe 的函式
+    if "audio" not in request.files:                              # 檢查請求中是否包含名為 "audio" 的檔案
+        return jsonify({"error": "No audio file provided"}), 400  # 如果沒有提供音訊檔案，回傳錯誤訊息和 400 狀態碼
+
+    audio_file = request.files["audio"]                           # 從 body 把檔案拿出來
+    audio_content = audio_file.read()                             # 讀檔案
+    transcript = transcribe_audio(audio_content)                  # 呼叫 transcribe_audio 辨識語音
+
+    # 將上面的 prompt 作為 system prompt
+    model = genai.GenerativeModel(model_name="models/gemini-1.5-flash", system_instruction=prompt)
+    response = model.generate_content(f"回覆以下句子:{transcript}")
+    generated_text = response.text[:-1]
+    app.logger.info(words[generated_text])
+    return jsonify({"text": int(generated_text), "pic": words[generated_text]})
 ```
 
 ---
 layout: center
-class: text-center
 ---
 
-# Learn More
+<div class="chapterTitle">
+ESP32 程式撰寫
+</div>
 
-[Documentation](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/resources/showcases)
+---
+layout: center
+---
 
-<PoweredBySlidev mt-10 />
+### 目標：
+
+1. 在 ESP32 上建立一個簡易的 API Server，接收來自後端 (Flask) 的指令。
+2. 根據接收到的指令 (圖片編號)，控制步進馬達旋轉到對應梗圖的位置。
+
+---
+layout: center
+---
+
+## 步進馬達
+
+---
+
+### 步進馬達
+
+步進馬達（Stepper Motor）是一種**將電脈衝轉換為角位移的電動機**。每輸入一個脈衝訊號，馬達的軸就會**轉動一個固定的角度（步距角）**，因此能夠實現**精確的位置控制**，無需回授裝置（如編碼器）即可進行開迴路控制。
+
+---
+
+## 特性
+
+- **高精度定位**：每一步對應固定角度，能夠準確控制轉動角度。
+- **易於控制**：透過數位訊號控制，適合與微控制器（如 Arduino、Raspberry Pi）配合使用。
+- **保持力矩強**：即使停止轉動時仍具有一定的保持力矩，適合應用在需長時間保持位置的場合。
+- **低速高扭力**：特別適合低速且需要穩定力矩輸出的應用。
+
+---
+
+## 應用
+
+- 3D 印表機
+- CNC 機器
+- 攝影雲台
+- 自動化門窗
+- 精密儀器定位系統
+
+---
+
+## 28BYJ-48 步進馬達
+
+![Stepper](https://cdn-reichelt.de/bilder/web/artikel_ws/A300%2FME071_01.jpg?type=Product&)
+
+---
+
+### API
+
+- 路由： `/spin`
+- Method： `POST`
+- Body： `{"position": <轉到第幾張圖>}`
+
+---
+
+### Basic Setting
+
+```cpp {1-4|6-8|10-11|13-24|*}{maxHeight:'400px', lines:true}
+#include <Stepper.h>
+#include <WiFi.h>
+#include <WebServer.h>
+#include <ArduinoJson.h>
+
+// Replace with your network credentials
+const char *ssid = "SSID";
+const char *password = "PASSWORD";
+
+// Create a WebServer object on port 80
+WebServer server(80);
+
+const int stepsPerRevolution = 2048; // change this to fit the number of steps per revolution
+
+// ULN2003 Motor Driver Pins
+#define IN1 19
+#define IN2 18
+#define IN3 5
+#define IN4 17
+
+// initialize the stepper library
+Stepper myStepper(stepsPerRevolution, IN1, IN3, IN2, IN4);
+int position[32] = {...};
+int cur_pos = 0;
+```
+
+---
+
+### Setup
+
+Connect to WIFI and start the server.
+
+```cpp {3-4|6-12|13-15|17-20|21-22|*}{maxHeight:'400px', lines:true}
+void setup()
+{
+    // Start Serial communication
+    Serial.begin(115200);
+
+    // Connect to Wi-Fi
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println("\nConnected to WiFi");
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.localIP());
+
+    // Define routes
+    server.on("/spin", HTTP_POST, handlePostData);
+    // Start the server
+    server.begin();
+    // set the speed at 5 rpm
+    myStepper.setSpeed(5);
+}
+```
+
+---
+
+### Control stepper
+
+```cpp {*}{lines:true}
+void move_to(int tar)
+{
+    int diff = position[tar] - cur_pos;
+    if (diff > 0)
+        diff = diff - 2048;
+    myStepper.step(diff);
+    cur_pos = position[tar];
+}
+```
+
+---
+
+### Handle request
+
+```cpp {*}{lines:true}
+void handlePostData()
+{
+    if (server.method() != HTTP_POST)
+    {
+        server.send(405, "application/json", "{\"error\":\"Method Not Allowed\"}");
+        return;
+    }
+    String body = server.arg("plain"); // Get the raw body as a string
+
+    Serial.println("Received Body:");
+    Serial.println(body);
+```
+
+---
+
+### Parse JSON
+
+```cpp {*}{lines:true, startLine: 12}
+    // Parse JSON using ArduinoJson
+    StaticJsonDocument<200> doc;
+    DeserializationError error = deserializeJson(doc, body);
+
+    if (error)
+    {
+        Serial.print("JSON Parse Error: ");
+        Serial.println(error.c_str());
+        server.send(400, "application/json", "{\"error\":\"Invalid JSON\"}");
+        return;
+    }
+```
+
+---
+
+### Get position
+
+```cpp {*}{lines:true, startLine: 23}
+    int position = doc["position"];
+    Serial.println(position);
+    // Respond with the received data
+    String jsonResponse = "{\"received\":\"received\"}";
+    server.send(200, "application/json", jsonResponse);
+    move_to(position - 1);
+    Serial.println(cur_pos);
+}
+```
+
+---
+layout: center
+---
+
+### 回到 Python
+
+---
+
+建立一個檔案 `esp32_control.py` 來處理與 ESP32 的通訊：
+
+```py {*}{lines:true}
+import requests
+
+ESP_IP = "192.168.50.214"
+ESP_PORT = 80
+ESP_API_URL = f"http://{ESP_IP}:{ESP_PORT}/spin"
+
+
+def control_esp(value):
+    data = {"position": value}
+    response = requests.post(f"{ESP_API_URL}", json=data)
+    return response.json()
+```
+
+---
+
+修改 app.py (Flask 後端)，在得到 Gemini 回應後呼叫 control_esp：
+
+```py {*|17}{lines:true}
+import esp32_control as esp32_control
+
+@app.route("/api/transcribe", methods=["POST"])
+def transcribe():
+    if "audio" not in request.files:
+        return jsonify({"error": "No audio file provided"}), 400
+
+    # 語音轉文字
+    audio_file = request.files["audio"]
+    audio_content = audio_file.read()
+    transcript = transcribe_audio(audio_content)
+
+    model = genai.GenerativeModel(model_name="models/gemini-1.5-flash", system_instruction=prompt)
+    response = model.generate_content(f"回覆以下句子:{transcript}")
+    generated_text = response.text[:-1]
+    app.logger.info(words[generated_text])
+    response = esp32_control.control_esp(int(generated_text))     # 加這行
+    app.logger.info(f"send {int(generated_text)} to esp32, {response=}")
+    return jsonify({"text": int(generated_text), "pic": words[generated_text]})
+```
+
+---
+layout: center
+---
+
+## Done
+
+---
+layout: center
+---
+
+<div class="chapterTitle">
+Docker
+</div>
+
+---
+
+## 什麼是 Docker？
+
+- Docker 是一個**容器化平台 (Containerization Platform)**。
+- 可以將你的應用程式與其所有需要的**依賴環境 (例如 Python 版本、特定函式庫) 打包**在一起，形成一個標準化的**容器 (Container)**。
+- 容器是**輕量級、可攜式**的，確保應用程式在任何地方都能**一致地**運行。
+
+---
+
+## 為什麼要使用 Docker？
+
+- 環境一致性：解決「在我電腦上可以跑，在你電腦上就不行」的問題。開發、測試、生產環境完全一致。
+- 快速部署：容器啟動非常快 (秒級)，方便快速建置、測試與部署。
+- 資源隔離：每個容器有自己獨立的運行環境，互不影響。
+- 易於擴展：可以輕鬆複製容器來擴展服務能力。
+- 支援多平台：可在不同作業系統上運行。
+
+---
+
+## Docker 核心概念
+
+- Image (映像檔)：相當於容器的**模板 或 藍圖**。它是一個唯讀檔案，包含了執行應用程式所需的所有內容 (程式碼、函式庫、環境變數、設定檔)。
+- Container (容器)：是映像檔的**運行實例**。你可以把它想像成一個輕量級的虛擬機，但它共享主機的操作系統核心，所以更節省資源。容器可以被啟動、停止、刪除。
+- Dockerfile：是一個**文本文件**，裡面包含了一系列的指令，用來告訴 Docker 如何自動建構 (build) 一個映像檔。
+- Docker Hub / Registry (倉庫/註冊中心)：是用來**儲存和分享**映像檔的地方。Docker Hub 是官方的公共倉庫，也有私有倉庫可用。
+
+---
+
+## 安裝 Docker
+
+### Windows / macOS 使用者：
+
+- 安裝 [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+### Linux:
+
+- 參考 [官方文件](https://docs.docker.com/engine/install/)
+
+---
+
+## Dockerfile
+
+```dockerfile
+FROM python:3.10
+
+WORKDIR /app
+
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir Flask google-generativeai
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python3", "/app/app.py"]
+```
+
+然後建構映像檔並執行：
+
+```sh
+docker build -t my-flask-app .
+docker run -p 5000:5000 my-flask-app
+```
+
+---
+
+## 什麼是 Docker Compose？
+
+- Docker Compose 是用來**定義與管理多容器應用程式**的工具
+- 使用 `docker-compose.yml` 檔案描述服務、網路、掛載等設定
+
+---
+
+## Docker Compose
+
+```yaml
+services:
+  web:
+    image: nginx:latest
+    ports: ["8080:80"]
+    volumes: ["./nginx.conf:/etc/nginx/nginx.conf:ro"]
+    depends_on: [api]
+  api:
+    build: ./api-service # 假設 API 服務在 api-service 資料夾
+    ports: ["5000:5000"]
+    environment: { DATABASE_URL: postgresql://user:password@db:5432/mydb }
+    depends_on: [db]
+  db:
+    image: postgres:15
+    environment:
+      { POSTGRES_DB: mydb, POSTGRES_USER: user, POSTGRES_PASSWORD: password }
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+volumes: { postgres_data }
+```
+
+---
+
+只要一行指令即可啟動全部服務：
+
+```sh
+docker compose up
+```
+
+---
+
+- Docker 解決了環境不一致和部署困難的問題。
+- Dockerfile 用來定義如何打包你的應用程式。
+- Docker Compose 用來管理多個容器的應用程式，特別適合本地開發和測試。
+- 安裝和入門相對簡單，對開發和部署非常有幫助。
+
+---
+layout: center
+---
+
+<div class="chapterTitle">
+這篇簡報
+</div>
+
+---
+
+[簡報 Repo](https://github.com/viecon/mygo-slide)
+
+---
+
+### 架構
+
+- 簡報內容： 使用 Markdown 語法撰寫
+- Markdown 轉 HTML： 使用 Marp CLI 工具將 Markdown 轉換成可以發佈的 HTML 投影片。
+- 網站託管：GitHub Pages 免費託管生成的 HTML 檔案
+
+---
+layout: center
+---
+
+## Github Actions
+
+---
+
+## 什麼是 GitHub Actions？
+
+- GitHub 推出的 CI/CD（持續整合／持續部署）工具
+- 可以讓你 自動化 軟體開發中的各種 工作流程，例如：程式碼檢查、測試、建構、部署等。
+- 工作流程定義在專案根目錄下的 `.github/workflows/` 資料夾內的 YAML 檔案中。
+
+---
+
+## 核心概念
+
+- Workflow (工作流程)：定義自動化流程的 YAML 檔案。可以由一個或多個 Job 組成。
+- Event (事件)：觸發 Workflow 運行的動作，例如 `push`、`pull_request`、`schedule` (定時執行) 等。
+- Job (工作)：Workflow 中的一個執行單元，包含一個或多個 Step。同一個 Job 中的所有 Step 會在同一個 Runner 上執行。
+- Step (步驟)：Job 中的最小執行單位，可以是一個 Shell 指令，或者是一個可重複使用的 Action。
+- Action (動作)：可重複使用的程式碼單元，用來執行常見的自動化任務 (例如：checkout 程式碼、設定 Node.js 環境、部署到 AWS 等)。可以自己撰寫，也可以使用市集上別人寫好的 Action。
+- Runner (執行器)：實際執行 Job 的虛擬機器。GitHub 提供免費的 Linux, Windows, macOS Runner，也可以自己架設 Runner。
+
+---
+
+## 範例
+
+在專案根目錄建立 `.github/workflows/hello.yml`
+
+```yaml
+name: Say Hello # Workflow 的名稱
+
+on: [push] # 觸發條件：當有 push 事件發生時
+
+jobs:
+  build: # 定義一個名為 'build' 的 Job
+    runs-on: ubuntu-latest # 指定執行環境為最新的 Ubuntu
+    steps: # 這個 Job 包含的步驟
+      - uses: actions/checkout@v4 # 拉取程式碼
+      - name: Run a one-line script # 執行 Shell 指令
+        run: echo "Hello, GitHub Actions!"
+```
+
+當你 push 程式碼到 GitHub 時，這個 Workflow 就會自動執行。
+
+---
+
+## 為什麼要使用 GitHub Actions？
+
+- 與 GitHub 原生整合
+- 輕鬆自動化測試與部署流程
+- 擁有豐富的可重複使用 actions 生態系
+- 公開儲存庫免費使用
+
+---
+
+## 應用情境
+
+- 程式碼檢查：自動檢查程式碼風格是否符合規範。
+- 單元測試：每次 push 或 PR 時自動執行測試。
+- 建構與打包：自動編譯程式碼、建構 Docker Image。
+- 部署：自動將應用程式部署到伺服器、雲平台 (AWS, GCP, Azure) 或 GitHub Pages。
+
+---
+
+### 我拿來做什麼
+
+當 push 時用 `Marp` 把 Markdown 轉成 HTML，並部署到 `GitHub Pages`
+
+```yaml
+- name: Install Marp CLI and build slide
+  run: |
+    mkdir -p dist
+    npx @marp-team/marp-cli@latest slide.md --html --output dist/index.html
+    cp -r pics dist/
+
+- name: Setup Pages
+  uses: actions/configure-pages@v5
+
+- name: Upload artifact
+  uses: actions/upload-pages-artifact@v3
+  with:
+    path: dist
+
+- name: Deploy to GitHub Pages
+  id: deployment
+  uses: actions/deploy-pages@v4
+```
+
+---
+
+- 官方文件：[https://docs.github.com/actions](https://docs.github.com/actions)
+- Action 市集：[https://github.com/marketplace/actions](https://github.com/marketplace/actions)
+
+---
+layout: center
+---
+
+# END
