@@ -556,7 +556,7 @@ void setup()
 
 ### Control stepper
 
-```cpp {*}{lines:true}
+```cpp {1|3|4|5-6|7|8}{lines:true}
 void move_to(int tar)
 {
     tar--;
