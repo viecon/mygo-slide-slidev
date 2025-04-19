@@ -12,7 +12,14 @@ selectable: true
 favicon: '/pics/favicon.jpg'
 title: 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 titleTemplate: '陽明交大創客俱樂部社課 - AI 梗圖翻頁機'
+
+addons:
+  - slidev-addon-python-runner
+
+python:
+  installs: ["google-genai"]
 ---
+
 
 # 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 
@@ -233,7 +240,7 @@ pip install google-genai
 
 ### 範例
 
-```py {*}{lines:true}
+```py {monaco-run} {autorun:false}
 import google.generativeai as genai
 
 # 請將 "YOUR_API_KEY" 替換成你自己的 API Key
@@ -842,8 +849,8 @@ layout: center
 ### 架構
 
 - 簡報內容： 使用 Markdown 語法撰寫
-- Markdown 轉 HTML： 使用 Slidev 將 Markdown 轉換成可以發佈的 HTML 投影片。
-- 網站託管：GitHub Pages 免費託管生成的 HTML 檔案
+- Markdown 轉 HTML： 使用 Slidev 將 Markdown 轉換成 SPA(Single-page application)。
+- 網站託管：GitHub Pages 免費託管生成的網頁
 
 ---
 layout: center
