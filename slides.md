@@ -760,15 +760,17 @@ layout: center
 </div>
 
 ---
+layout: center
+---
 
-[簡報 Repo](https://github.com/viecon/mygo-slide)
+[簡報 Repo](https://github.com/viecon/mygo-slide-slidev)
 
 ---
 
 ### 架構
 
 - 簡報內容： 使用 Markdown 語法撰寫
-- Markdown 轉 HTML： 使用 Marp CLI 工具將 Markdown 轉換成可以發佈的 HTML 投影片。
+- Markdown 轉 HTML： 使用 slidev 將 Markdown 轉換成可以發佈的 HTML 投影片。
 - 網站託管：GitHub Pages 免費託管生成的 HTML 檔案
 
 ---
@@ -803,17 +805,17 @@ layout: center
 在專案根目錄建立 `.github/workflows/hello.yml`
 
 ```yaml
-name: Say Hello # Workflow 的名稱
+name: Say Hello                             # Workflow 的名稱
 
-on: [push] # 觸發條件：當有 push 事件發生時
+on: [push]                                  # 觸發條件：當有 push 事件發生時
 
 jobs:
-  build: # 定義一個名為 'build' 的 Job
-    runs-on: ubuntu-latest # 指定執行環境為最新的 Ubuntu
-    steps: # 這個 Job 包含的步驟
-      - uses: actions/checkout@v4 # 拉取程式碼
-      - name: Run a one-line script # 執行 Shell 指令
-        run: echo "Hello, GitHub Actions!"
+  build:                                    # 定義一個名為 'build' 的 Job
+    runs-on: ubuntu-latest                  # 指定執行環境為最新的 Ubuntu
+    steps:                                  # 這個 Job 包含的步驟
+      - uses: actions/checkout@v4           # 拉取程式碼
+      - name: Run a one-line script
+        run: echo "Hello, GitHub Actions!"  # 執行 Shell 指令
 ```
 
 當你 push 程式碼到 GitHub 時，這個 Workflow 就會自動執行。
@@ -840,26 +842,35 @@ jobs:
 
 ### 我拿來做什麼
 
-當 push 時用 `Marp` 把 Markdown 轉成 HTML，並部署到 `GitHub Pages`
+當 push 時用 `slidev` 生成靜態網頁並部署到 `GitHub Pages`
 
-```yaml
-- name: Install Marp CLI and build slide
-  run: |
-    mkdir -p dist
-    npx @marp-team/marp-cli@latest slide.md --html --output dist/index.html
-    cp -r pics dist/
+```yaml {*}{maxHeight:'350px'}
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-- name: Setup Pages
-  uses: actions/configure-pages@v5
+    steps:
+      - uses: actions/checkout@v4
 
-- name: Upload artifact
-  uses: actions/upload-pages-artifact@v3
-  with:
-    path: dist
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
 
-- name: Deploy to GitHub Pages
-  id: deployment
-  uses: actions/deploy-pages@v4
+      - name: Setup @antfu/ni
+        run: npm i -g @antfu/ni
+
+      - name: Install dependencies
+        run: nci
+
+      - name: Build
+        run: nr build --base /${{github.event.repository.name}}/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
 ```
 
 ---
