@@ -47,10 +47,6 @@
     --uno: no-underline text-primary;
   }
 
-  a:hover {
-    --uno: underline;
-  }
-
   section.lead {
     --uno: flex flex-col justify-center text-center;
 
