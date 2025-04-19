@@ -517,6 +517,7 @@ void setup()
 ```cpp {*}{lines:true}
 void move_to(int tar)
 {
+    tar--;
     int diff = position[tar] - cur_pos;
     if (diff > 0)
         diff = diff - 2048;
@@ -571,7 +572,7 @@ void handlePostData()
     // Respond with the received data
     String jsonResponse = "{\"received\":\"received\"}";
     server.send(200, "application/json", jsonResponse);
-    move_to(position - 1);
+    move_to(position);
     Serial.println(cur_pos);
 }
 ```
