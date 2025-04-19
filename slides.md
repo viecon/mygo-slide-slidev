@@ -484,7 +484,7 @@ int cur_pos = 0;
 
 Connect to WIFI and start the server.
 
-```cpp {3-4|6-12|13-15|17-20|21-22|*}{maxHeight:'400px', lines:true}
+```cpp {3-4|6-12|13-15|17-20|21-22|*}{maxHeight:'350px', lines:true}
 void setup()
 {
     // Start Serial communication
@@ -528,9 +528,15 @@ void move_to(int tar)
 
 ---
 
-### Handle request
+<v-switch>
+  <template #0> API endpoint </template>
+  <template #1> Handle request </template>
+  <template #2> Parse JSON </template>
+  <template #3> Get position inside body </template>
+  <template #4> Control stepper </template>
+</v-switch>
 
-```cpp {*}{lines:true}
+```cpp {*|3-11|13-23|25-29|30-31}{maxHeight:'400px', lines:true, at:1}
 void handlePostData()
 {
     if (server.method() != HTTP_POST)
@@ -542,13 +548,7 @@ void handlePostData()
 
     Serial.println("Received Body:");
     Serial.println(body);
-```
 
----
-
-### Parse JSON
-
-```cpp {*}{lines:true, startLine: 12}
     // Parse JSON using ArduinoJson
     StaticJsonDocument<200> doc;
     DeserializationError error = deserializeJson(doc, body);
@@ -560,13 +560,7 @@ void handlePostData()
         server.send(400, "application/json", "{\"error\":\"Invalid JSON\"}");
         return;
     }
-```
 
----
-
-### Get position
-
-```cpp {*}{lines:true, startLine: 23}
     int position = doc["position"];
     Serial.println(position);
     // Respond with the received data
@@ -654,7 +648,7 @@ Docker
 ## 為什麼要使用 Docker？
 
 - 環境一致性：解決「在我電腦上可以跑，在你電腦上就不行」的問題。開發、測試、生產環境完全一致。
-- 快速部署：容器啟動非常快 (秒級)，方便快速建置、測試與部署。
+- 快速部署：容器啟動非常快，方便快速建置、測試與部署。
 - 資源隔離：每個容器有自己獨立的運行環境，互不影響。
 - 易於擴展：可以輕鬆複製容器來擴展服務能力。
 - 支援多平台：可在不同作業系統上運行。
@@ -738,13 +732,47 @@ volumes: { postgres_data }
 ```
 
 ---
+layout: center
+---
 
-只要一行指令即可啟動全部服務：
+````md magic-move
 
-```sh
-docker compose up
+```sh {*|1|3-10|12-19|21-26}
+docker network create my-net
+
+docker run -d \
+  --name db \
+  --network my-net \
+  -e POSTGRES_DB=mydb \
+  -e POSTGRES_USER=user \
+  -e POSTGRES_PASSWORD=password \
+  -v postgres_data:/var/lib/postgresql/data \
+  postgres:15
+
+docker build -t my-api ./api-service
+
+docker run -d \
+  --name api \
+  --network my-net \
+  -e DATABASE_URL=postgresql://user:password@db:5432/mydb \
+  -p 5000:5000 \
+  my-api
+
+docker run -d \
+  --name web \
+  --network my-net \
+  -p 8080:80 \
+  -v "$(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro" \
+  nginx:latest
 ```
 
+```sh
+docker compose up -build
+```
+````
+
+---
+layout: center
 ---
 
 - Docker 解決了環境不一致和部署困難的問題。
@@ -771,7 +799,7 @@ layout: center
 ### 架構
 
 - 簡報內容： 使用 Markdown 語法撰寫
-- Markdown 轉 HTML： 使用 slidev 將 Markdown 轉換成可以發佈的 HTML 投影片。
+- Markdown 轉 HTML： 使用 Slidev 將 Markdown 轉換成可以發佈的 HTML 投影片。
 - 網站託管：GitHub Pages 免費託管生成的 HTML 檔案
 
 ---
@@ -792,12 +820,12 @@ layout: center
 
 ## 核心概念
 
-- Workflow (工作流程)：定義自動化流程的 YAML 檔案。可以由一個或多個 Job 組成。
-- Event (事件)：觸發 Workflow 運行的動作，例如 `push`、`pull_request`、`schedule` (定時執行) 等。
-- Job (工作)：Workflow 中的一個執行單元，包含一個或多個 Step。同一個 Job 中的所有 Step 會在同一個 Runner 上執行。
-- Step (步驟)：Job 中的最小執行單位，可以是一個 Shell 指令，或者是一個可重複使用的 Action。
-- Action (動作)：可重複使用的程式碼單元，用來執行常見的自動化任務 (例如：checkout 程式碼、設定 Node.js 環境、部署到 AWS 等)。可以自己撰寫，也可以使用市集上別人寫好的 Action。
-- Runner (執行器)：實際執行 Job 的虛擬機器。GitHub 提供免費的 Linux, Windows, macOS Runner，也可以自己架設 Runner。
+- Workflow：定義自動化流程的 YAML 檔。由一個或多個 Job 組成。
+- Event：觸發 Workflow 運行的動作，如 `push`、`schedule` (定時執行) 等。
+- Job：Workflow 中的一個執行單元，包含一個或多個 Step。同一個 Job 中的所有 Step 會在同一個 Runner 上執行。
+- Step：Job 中的最小執行單位，可以是一個 Shell 指令或一個 Action。
+- Action：可重複使用的程式碼單元，用來執行常見的自動化任務 (例如：checkout 程式碼、設定環境等)。可以自己寫，也可以用別人寫好的。
+- Runner：實際執行 Job 的虛擬機器。GitHub 有免費的 Runner，也可以自己架。
 
 ---
 
@@ -843,7 +871,7 @@ jobs:
 
 ### 我拿來做什麼
 
-當 push 時用 `slidev` 生成靜態網頁並部署到 `GitHub Pages`
+當 push 時用 `Slidev` 生成靜態網頁並部署到 `GitHub Pages`
 
 ```yaml {*}{maxHeight:'350px'}
 jobs:
@@ -875,9 +903,11 @@ jobs:
 ```
 
 ---
+layout: center
+---
 
-- 官方文件：[https://docs.github.com/actions](https://docs.github.com/actions)
-- Action 市集：[https://github.com/marketplace/actions](https://github.com/marketplace/actions)
+- GitHub Actions 官方文件：[https://docs.github.com/actions](https://docs.github.com/actions)
+- Slidev 官方網站：[https://sli.dev/](https://sli.dev/)
 
 ---
 layout: center
