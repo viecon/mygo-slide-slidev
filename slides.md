@@ -1,4 +1,5 @@
 ---
+author: Viecon
 layout: center
 theme: default
 fonts:
@@ -8,6 +9,7 @@ fonts:
 defaults:
   layout: default
 selectable: true
+favicon: 'https://scontent-tpe1-1.xx.fbcdn.net/v/t39.30808-6/274109583_1708416819366104_376739205243155719_n.jpg'
 ---
 
 # 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
