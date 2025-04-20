@@ -16,7 +16,6 @@ addons:
   - "@katzumi/slidev-addon-qrcode"
 ---
 
-
 # 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 
 ---
@@ -60,8 +59,6 @@ routeAlias: structure preview
 </div>
 
 ---
-routeAlias: structure preview
----
 
 ### 架構簡介
 
@@ -101,11 +98,12 @@ Prompt Engineering
 
 定義： 直接給予模型任務指令，無需提供例子。
 
+<VertCenter height="70%">
 ```text
 請將以下句子翻譯成法語：
 "The book is on the table."
 ```
-
+</VertCenter>
 
 ---
 
@@ -118,7 +116,7 @@ Prompt Engineering
 英文：Goodbye → 法文：
 ```
 
-
+<br>
 
 ### Few-Shot
 
@@ -136,10 +134,12 @@ Prompt Engineering
 
 定義： 引導模型逐步推理，透過中間步驟來達成最終答案。
 
+<VertCenter height="70%">
 ```text
 There are 12 cookies. You eat 4 and give away 3. How many are left?
 Let's think step by step.
 ```
+</VertCenter>
 
 ---
 
@@ -147,9 +147,11 @@ Let's think step by step.
 
 定義： 指定模型扮演特定角色，以影響其語氣與回應方式。
 
+<VertCenter height="70%">
 ```text
 你是一位歷史學家，請解釋羅馬帝國的衰落原因。
 ```
+</VertCenter>
 
 ---
 
@@ -157,10 +159,12 @@ Let's think step by step.
 
 定義： 給模型一些背景知識，引導他產出想要的結果。
 
+<VertCenter height="70%">
 ```text
 The user is traveling to Japan in winter and is allergic to seafood.
 Suggest 2 Japanese meals.
 ```
+</VertCenter>
 
 ---
 
@@ -190,10 +194,12 @@ Write a checklist for preparing for a job interview using the contents above.
 
 定義：用 AI 產生 Prompt。
 
+<VertCenter height="70%">
 ```text
 Generate 5 different ways to ask:
 "Show me the weather forecast for Tokyo."
 ```
+</VertCenter>
 
 ---
 
@@ -227,20 +233,16 @@ API 串接
 </div>
 
 ---
-layout: center
----
 
 先去 [Google AI Studio](https://aistudio.google.com/app/apikey?hl=zh-tw) 取得 API key
+並安裝套件：
 
----
-layout: center
----
-
-使用套件：
+<VertCenter height="70%">
 
 ```sh
 pip install google-genai
 ```
+</VertCenter>
 
 ---
 
@@ -256,6 +258,8 @@ pip install google-genai
 
 ### 範例
 
+<VertCenter height="70%">
+
 ```py {*}{lines: true}
 from google import genai
 client = genai.Client(api_key="YOUR_API_KEY")
@@ -266,11 +270,13 @@ response = client.models.generate_content(
 )
 print(response.text)
 ```
+</VertCenter>
 
 ---
 
 ### 保護 API key
 
+<VertCenter height="70%">
 <v-switch>
   <template #0> 
 
@@ -302,11 +308,22 @@ GOOGLE_API_KEY="YOUR_API_KEY"
 ```
 ````
 
-```py {hide|*}{lines: true, at:1}
+````md magic-move {at:1}
+```py {*}{lines: true}
+from google import genai
+
+client = genai.Client(api_key="YOUR_API_KEY")
+```
+
+```py {*}{lines: true}
+from google import genai
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables
+client = genai.Client()
 ```
+````
+</VertCenter>
 
 ---
 
@@ -352,6 +369,8 @@ def transcribe_audio(audio_content):
 
 Load word list
 
+<VertCenter height="60%">
+
 ```py {*}{lines:true}
 import json
 
@@ -360,6 +379,7 @@ import json
 WORDS_JSON = open("words.json", "r", encoding="utf-8")
 WORDS = json.loads(WORDS_JSON.read())
 ```
+</VertCenter>
 
 ---
 
@@ -486,6 +506,100 @@ def transcribe():                                                 # 定義一個
 ```
 
 ---
+
+Demo Time
+
+```py {*}{lines: true, maxHeight: '400px'}
+import json
+
+from google import genai
+from google.genai import types
+from flask import Flask, request, jsonify, render_template
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app = Flask(__name__)
+client = genai.Client()
+
+WORDS_JSON = open("words.json", "r", encoding="utf-8")
+WORDS = json.loads(WORDS_JSON.read())
+# print(words)
+SYSTEM_PROMPT = f"""
+你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
+
+你的主要任務是：
+1.  **理解我的對話內容。**
+2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
+3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
+
+**以下是你可以選擇的台詞:**
+{WORDS}
+**舉例：**
+如果我的對話是 "早安"，你應該選擇「貴安」或是「早安喵姆喵姆」這句台詞回覆。
+
+必要時可以選擇最有趣的台詞回覆，但請確保回覆的內容與對話內容有關，可能是諧音或是反諷等等。
+但你也需要注意，這些台詞是來自動畫中的角色，所以有些台詞可能不適合用在所有情境中。
+**舉例：**
+如果我的對話是 "你為甚麼不理我"，你可以選擇「是這樣嗎」，或是「我還是會繼續下去」回覆。
+**現在，開始吧！**
+"""
+
+SYSTEM_PROMPT_CONFIG = types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/api/transcribe", methods=["POST"])
+def transcribe():
+    if "audio" not in request.files:
+        return jsonify({"error": "No audio file provided"}), 400
+
+    # 語音轉文字
+    audio_file = request.files["audio"]
+    audio_content = audio_file.read()
+    transcript = transcribe_audio(audio_content)
+    app.logger.info(f"transcript: {transcript}")
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        config=SYSTEM_PROMPT_CONFIG,
+        contents=f"回覆以下句子:{transcript}",
+    )
+    app.logger.info(f"{response.text=}")
+
+    generated_text = response.text.strip()
+    app.logger.info(f"generated_text: {generated_text}")
+    app.logger.info(WORDS[generated_text])
+    response = esp32_control.control_esp(int(generated_text))
+    app.logger.info(f"send {int(generated_text)} to esp32, {response=}")
+    return jsonify({"text": int(generated_text), "pic": WORDS[generated_text]})
+
+
+def transcribe_audio(audio_content):
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[
+            "請將以下語音轉文字並直接輸出，如果有雜音可以忽略，如果全都是雜音或是無法分辨，請回覆「&$%$hu#did」",
+            types.Part.from_bytes(
+                data=audio_content,
+                mime_type="audio/wav",
+            ),
+        ],
+    )
+
+    app.logger.info(f"{response.text=}")
+    return response.text.strip()
+
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0")
+```
+
+---
 layout: center
 routeAlias: ESP32
 ---
@@ -505,10 +619,6 @@ layout: center
 
 ---
 layout: center
----
-
-## 步進馬達
-
 ---
 
 ### 步進馬達
@@ -544,9 +654,12 @@ layout: center
 
 ### API
 
+<VertCenter height="70%">
+
 - 路由： `/spin`
 - Method： `POST`
 - Body： `{"position": <轉到第幾張圖>}`
+</VertCenter>
 
 ---
 
@@ -615,6 +728,8 @@ void setup()
 
 ### Control stepper
 
+<VertCenter height="75%">
+
 ```cpp {1|3|4|5-6|7|8}{lines:true}
 void move_to(int tar)
 {
@@ -626,6 +741,7 @@ void move_to(int tar)
     cur_pos = position[tar];
 }
 ```
+</VertCenter>
 
 ---
 
@@ -639,7 +755,7 @@ void move_to(int tar)
 </v-switch>
 
 ```cpp {*|3-11|13-23|25-29|30-31|*}{maxHeight:'400px', lines:true, at:1}
-void handlePostData()
+void handlePostSpin()
 {
     if (server.method() != HTTP_POST)
     {
@@ -682,6 +798,7 @@ layout: center
 ---
 
 建立一個檔案 `esp32_control.py` 來處理與 ESP32 的通訊：
+<VertCenter height="80%">
 
 ```py {1|3-5|8-11|*}{lines:true}
 import requests
@@ -696,12 +813,13 @@ def control_esp(value):
     response = requests.post(f"{ESP_API_URL}", json=data)
     return response.json()
 ```
+</VertCenter>
 
 ---
 
 修改 app.py (Flask 後端)，在得到 Gemini 回應後呼叫 control_esp：
 
-```py {24-25}{lines:true}
+```py {*|24-25}{lines:true, maxHeight: '400px'}
 import esp32_control as esp32_control
 
 @app.route("/api/transcribe", methods=["POST"])
@@ -776,6 +894,8 @@ Docker
 
 ## 安裝 Docker
 
+<VertCenter height="70%">
+
 ### Windows / macOS 使用者：
 
 - 安裝 [Docker Desktop](https://www.docker.com/products/docker-desktop)
@@ -783,6 +903,8 @@ Docker
 ### Linux:
 
 - 參考 [官方文件](https://docs.docker.com/engine/install/)
+
+</VertCenter>
 
 ---
 
@@ -814,9 +936,11 @@ docker run -p 5000:5000 my-flask-app
 
 ## 什麼是 Docker Compose？
 
+<VertCenter height="70%">
+
 - Docker Compose 是用來**定義與管理多容器應用程式**的工具
 - 使用 `docker-compose.yml` 檔案描述服務、網路、掛載等設定
-
+</VertCenter>
 ---
 
 ## Docker Compose
@@ -842,8 +966,9 @@ volumes: { postgres_data }
 ```
 
 ---
-layout: center
----
+
+
+<VertCenter height="90%">
 
 ````md magic-move
 
@@ -880,10 +1005,12 @@ docker run -d \
 docker compose up --build
 ```
 ````
-
+</VertCenter>
 ---
 
 ### Docker Compose of this project
+
+<VertCenter height="80%">
 
 ```yaml
 services:
@@ -911,6 +1038,8 @@ docker run -p 5000:5000 my-flask-app
 docker compose --build
 ```
 ````
+</VertCenter>
+
 ---
 layout: center
 ---
@@ -935,6 +1064,8 @@ layout: center
 
 [簡報 Repo](https://github.com/viecon/mygo-slide-slidev)
 
+---
+layout: center
 ---
 
 ### 架構
