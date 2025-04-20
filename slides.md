@@ -43,21 +43,24 @@ addons:
 
 ## Content
 
-1. 架構簡介
-2. Prompt engineering
-3. API 串接
-4. ESP32 程式撰寫
-5. Docker (有時間的話)
-6. 這篇簡報 (真的還有時間的話)
+1. <Link to="structure preview">架構簡介</Link>
+2. <Link to="Prompt Engineering">Prompt Engineering</Link>
+3. <Link to="API">API 串接</Link>
+4. <Link to="ESP32">ESP32 程式撰寫</Link>
+5. <Link to="Docker">Docker (有時間的話)</Link>
+6. <Link to="Slidev">這篇簡報 (真的還有時間的話)</Link>
 
 ---
 layout: center
+routeAlias: structure preview
 ---
 
 <div class="chapterTitle">
 架構簡介
 </div>
 
+---
+routeAlias: structure preview
 ---
 
 ### 架構簡介
@@ -67,6 +70,7 @@ layout: center
 
 ---
 layout: center
+routeAlias: Prompt Engineering
 ---
 
 <div class="chapterTitle">
@@ -215,6 +219,7 @@ Generate 5 different ways to ask:
 
 ---
 layout: center
+routeAlias: API
 ---
 
 <div class="chapterTitle">
@@ -482,6 +487,7 @@ def transcribe():                                                 # 定義一個
 
 ---
 layout: center
+routeAlias: ESP32
 ---
 
 <div class="chapterTitle">
@@ -732,6 +738,7 @@ layout: center
 
 ---
 layout: center
+routeAlias: Docker
 ---
 
 <div class="chapterTitle">
@@ -915,6 +922,7 @@ layout: center
 
 ---
 layout: center
+routeAlias: Slidev
 ---
 
 <div class="chapterTitle">
