@@ -81,12 +81,14 @@ routeAlias: Prompt Engineering
 
 ## 什麼是大型語言模型 (Large Language Models, LLMs)?
 
-<VertCenter height="70%">
+<QuoteBlock>
+  it’s a prediction engine. The model takes sequential text as an input and then predicts what the following token should be, based on the data it was trained on. The LLM is operationalized to do this over and over again, adding the previously predicted token to the end of the sequential text for predicting the following token. The next token prediction is based on the relationship between what’s in the previous tokens and what the LLM has seen during its training.
 
-> it’s a prediction engine. The model takes sequential text as an input and then predicts what the following token should be, based on the data it was trained on. The LLM is operationalized to do this over and over again, adding the previously predicted token to the end of the sequential text for predicting the following token. The next token prediction is based on the relationship between what’s in the previous tokens and what the LLM has seen during its training.
+</QuoteBlock>
+
 
 **簡單來說：** LLM 就像一個超強的文字接龍大師，它根據你給它的文字序列（輸入），預測下一個最可能出現的字詞是什麼，這個預測是基於它在大量資料中學習到的模式。
-</VertCenter>
+
 
 ---
 
@@ -187,7 +189,9 @@ What makes a job interview successful?
 
 Answer:
 
-> Good communication, confidence, and understanding of the company.
+<QuoteBlock>
+Good communication, confidence, and understanding of the company.
+</QuoteBlock>
 
 **Main Prompt (using above as context):**
 
@@ -257,7 +261,7 @@ pip install google-genai
 ## API rate
 
 <InvertDark>
-  <Transform :scale="0.75">
+  <Transform :scale="0.70">
     <img src="/pics/gemini_API_rate.png" />
   </Transform>
 </InvertDark>
