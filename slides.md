@@ -232,23 +232,7 @@ pip install google-genai
 
 ---
 
-### 範例
-
-```py {*}{lines: true}
-from google import genai
-client = genai.Client(api_key="YOUR_API_KEY")
-
-response = client.models.generate_content(
-    model='gemini-2.0-flash',
-    contents='講個冷笑話'
-)
-print(response.text)
-```
-
----
-
 ### API rate
-
 
 <LightOrDark>
   <template #dark>
@@ -264,6 +248,61 @@ print(response.text)
   </template>
 </LightOrDark>
 
+---
+
+### 範例
+
+```py {*}{lines: true}
+from google import genai
+client = genai.Client(api_key="YOUR_API_KEY")
+
+response = client.models.generate_content(
+    model='gemini-2.0-flash',
+    contents='講個冷笑話'
+)
+print(response.text)
+```
+
+---
+
+### 保護 API key
+
+<v-switch>
+  <template #0> 
+
+  安裝 `dotenv`
+   </template>
+  <template #1> 
+
+  創建一個 `.env` 檔 
+  </template>
+  <template #2> 
+
+  如果想上傳 `GitHub` 的話記得放進 `.gitignore`
+   </template>
+</v-switch>
+
+````md magic-move {at:1}
+```sh
+pip install python-dotenv
+```
+
+```dotenv
+# .env
+GOOGLE_API_KEY="YOUR_API_KEY"
+```
+
+```sh
+# .gitignore
+.env
+```
+````
+
+```py {hide|*}{lines: true, at:1}
+from dotenv import load_dotenv
+
+load_dotenv()  # take environment variables
+```
 
 ---
 
