@@ -282,18 +282,25 @@ layout: center
 ### 語音辨識
 
 ```py {*}{lines:true}
-import google.generativeai as genai
+from google import genai
+from google.genai import types
+
+client = genai.Client(api_key="YOUR_API_KEY")
 
 def transcribe_audio(audio_content):
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    result = model.generate_content(
-        [
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[
             "請將以下語音轉文字並直接輸出，如果有雜音可以忽略，如果全都是雜音或是無法分辨，請回覆「&$%$hu#did」",
-            {"mime_type": "audio/wav", "data": audio_content},
-        ]
+            types.Part.from_bytes(
+                data=audio_content,
+                mime_type="audio/wav",
+            ),
+        ],
     )
-    app.logger.info(f"{result.text=}")
-    return result.text
+
+    app.logger.info(f"{response.text=}")
+    return response.text.strip()
 ```
 
 ---
@@ -307,8 +314,8 @@ import json
 
 # 假設梗圖台詞與編號儲存在 words.json
 # 格式應為 {"0": "台詞一", "1": "台詞二", ...}
-json_data = open("words.json", "r", encoding="utf-8")
-words = json.loads(json_data.read())
+WORDS_JSON = open("words.json", "r", encoding="utf-8")
+WORDS = json.loads(WORDS_JSON.read())
 ```
 
 ---
@@ -326,7 +333,7 @@ words = json.loads(json_data.read())
 ````md magic-move {at: 1}
 
 ```md
-你的任務是：
+你的主要任務是：
 1.  **理解我的對話內容。**
 2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
 3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
@@ -338,7 +345,7 @@ words = json.loads(json_data.read())
 ```md
 你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
 
-你的任務是：
+你的主要任務是：
 1.  **理解我的對話內容。**
 2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
 3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
@@ -350,7 +357,7 @@ words = json.loads(json_data.read())
 ```md
 你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
 
-你的任務是：
+你的主要任務是：
 1.  **理解我的對話內容。**
 2.  **根據對話內容，從以下提供的台詞中選擇一句最符合情境的台詞。**
 3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
@@ -382,7 +389,7 @@ words = json.loads(json_data.read())
 ```
 
 ```py {*}{lines:true}
-prompt = f"""
+SYSTEM_PROMPT = f"""
 你現在是一個名為 "MyGO!!!!! Gemini" 的虛擬對話夥伴，你的回答方式會完全採用動畫「Bang Dream! It's my GO!!!!!」中的台詞。
 
 你的主要任務是：
@@ -391,7 +398,7 @@ prompt = f"""
 3.  **直接回傳所選語句對應的編號，不需要回覆其他文字。**
 
 **以下是你可以選擇的台詞:**
-{words}
+{WORDS}
 **舉例：**
 如果我的對話是 "早安"，你應該選擇「貴安」或是「早安喵姆喵姆」這句台詞回覆。
 
@@ -399,7 +406,10 @@ prompt = f"""
 但你也需要注意，這些台詞是來自動畫中的角色，所以有些台詞可能不適合用在所有情境中。
 **舉例：**
 如果我的對話是 "你為甚麼不理我"，你可以選擇「是這樣嗎」，或是「我還是會繼續下去」回覆。
+**現在，開始吧！**
 """
+
+SYSTEM_PROMPT_CONFIG = types.GenerateContentConfig(system_instruction=SYSTEM_PROMPT)
 ```
 
 ````
@@ -408,7 +418,7 @@ prompt = f"""
 
 ### API
 
-```py {1-4|6-8|9-15|*}{lines:true}
+```py {1-4|6-9|11-16|17-19|21|*}{lines:true}
 @app.route("/api/transcribe", methods=["POST"])                   # 定義一個路由，處理 POST 請求，路徑為 /api/transcribe
 def transcribe():                                                 # 定義一個名為 transcribe 的函式
     if "audio" not in request.files:                              # 檢查請求中是否包含名為 "audio" 的檔案
@@ -417,13 +427,19 @@ def transcribe():                                                 # 定義一個
     audio_file = request.files["audio"]                           # 從 body 把檔案拿出來
     audio_content = audio_file.read()                             # 讀檔案
     transcript = transcribe_audio(audio_content)                  # 呼叫 transcribe_audio 辨識語音
+    app.logger.info(f"transcript: {transcript}")
 
     # 將上面的 prompt 作為 system prompt
-    model = genai.GenerativeModel(model_name="models/gemini-1.5-flash", system_instruction=prompt)
-    response = model.generate_content(f"回覆以下句子:{transcript}")
-    generated_text = response.text[:-1]
-    app.logger.info(words[generated_text])
-    return jsonify({"text": int(generated_text), "pic": words[generated_text]})
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        config=SYSTEM_PROMPT_CONFIG,
+        contents=f"回覆以下句子:{transcript}",
+    )
+    generated_text = response.text.strip()
+    app.logger.info(f"generated_text: {generated_text}")
+    app.logger.info(WORDS[generated_text])
+
+    return jsonify({"text": int(generated_text), "pic": WORDS[generated_text]})
 ```
 
 ---
@@ -641,7 +657,7 @@ def control_esp(value):
 
 修改 app.py (Flask 後端)，在得到 Gemini 回應後呼叫 control_esp：
 
-```py {17}{lines:true}
+```py {24-25}{lines:true}
 import esp32_control as esp32_control
 
 @app.route("/api/transcribe", methods=["POST"])
@@ -653,14 +669,21 @@ def transcribe():
     audio_file = request.files["audio"]
     audio_content = audio_file.read()
     transcript = transcribe_audio(audio_content)
+    app.logger.info(f"transcript: {transcript}")
 
-    model = genai.GenerativeModel(model_name="models/gemini-1.5-flash", system_instruction=prompt)
-    response = model.generate_content(f"回覆以下句子:{transcript}")
-    generated_text = response.text[:-1]
-    app.logger.info(words[generated_text])
-    response = esp32_control.control_esp(int(generated_text))     # 加這行
-    app.logger.info(f"send {int(generated_text)} to esp32, {response=}")
-    return jsonify({"text": int(generated_text), "pic": words[generated_text]})
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        config=SYSTEM_PROMPT_CONFIG,
+        contents=f"回覆以下句子:{transcript}",
+    )
+    app.logger.info(f"{response.text=}")
+
+    generated_text = response.text.strip()
+    app.logger.info(f"generated_text: {generated_text}")
+    app.logger.info(WORDS[generated_text])
+    response = esp32_control.control_esp(int(generated_text))              # 加這兩行
+    app.logger.info(f"send {int(generated_text)} to esp32, {response=}")   # 加這兩行
+    return jsonify({"text": int(generated_text), "pic": WORDS[generated_text]})
 ```
 
 ---
