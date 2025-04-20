@@ -17,6 +17,11 @@
     --uno: text-[1.3em] light:text-gray-900 dark:text-gray-300;
   }
 
+  h4, h5, h6 {
+    --uno: text-[1.2em] light:text-gray-900 dark:text-gray-300;
+  }
+
+
   p {
     --uno: mb-[0.8em];
   }
@@ -56,7 +61,7 @@
   }
 
   .chapterTitle {
-    --uno: text-[3em] text-[#888] text-center ;
+    --uno: text-[2.5em] text-[#888] text-center ;
   }
   .center {
     --uno: text-center ;

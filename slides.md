@@ -14,13 +14,14 @@ title: 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 titleTemplate: '陽明交大創客俱樂部社課 - AI 梗圖翻頁機'
 addons:
   - "@katzumi/slidev-addon-qrcode"
+  - slidev-component-progress
 ---
 
 # 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 
 ---
 
-## 簡報連結
+#### 簡報連結
 
 <div class="flex items-center">
   <div>
@@ -40,7 +41,7 @@ addons:
 
 ---
 
-## Content
+# Content
 
 1. <Link to="structure preview">架構簡介</Link>
 2. <Link to="Prompt Engineering">Prompt Engineering</Link>
@@ -55,12 +56,13 @@ routeAlias: structure preview
 ---
 
 <div class="chapterTitle">
-架構簡介
+
+# 架構簡介
 </div>
 
 ---
 
-### 架構簡介
+## 架構簡介
 
 ![專案整體架構圖](/pics/whole_structure.png)
 [專案程式碼連結 (Code)](https://github.com/godempty/MyGo_Flipper)
@@ -71,12 +73,13 @@ routeAlias: Prompt Engineering
 ---
 
 <div class="chapterTitle">
-Prompt Engineering
+
+# Prompt Engineering
 </div>
 
 ---
 
-### 什麼是大型語言模型?
+## 什麼是大型語言模型 (Large Language Models, LLMs)?
 
 <VertCenter height="70%">
 
@@ -87,9 +90,9 @@ Prompt Engineering
 
 ---
 
-### 什麼是 Prompt Engineering？
+## 什麼是 Prompt Engineering？
 
-- 是設計與優化提示語 (`prompts`) 以引導 **大型語言模型 (Large Language Models, LLMs)** 產生期望輸出的技術。
+- 是設計與優化提示語 (`prompts`) 以引導 **大型語言模型** 產生期望輸出的技術。
 - 透過精心設計的提示詞，提高模型在各種任務上的表現與可靠性。
 - ~~賽博巫術~~
 
@@ -97,7 +100,8 @@ Prompt Engineering
 
 ---
 
-### Zero-Shot
+## Zero-Shot
+
 
 定義： 直接給予模型任務指令，無需提供例子。
 
@@ -110,7 +114,7 @@ Prompt Engineering
 
 ---
 
-### One-Shot
+## One-Shot
 
 定義： 提供一個例子，幫助模型理解任務格式與期望輸出。
 
@@ -121,7 +125,7 @@ Prompt Engineering
 
 <br>
 
-### Few-Shot
+## Few-Shot
 
 定義： 提供多個例子，幫助模型理解任務格式與期望輸出。
 
@@ -133,7 +137,7 @@ Prompt Engineering
 
 ---
 
-### Chain-of-Thought (CoT)
+## Chain-of-Thought (CoT)
 
 定義： 引導模型逐步推理，透過中間步驟來達成最終答案。
 
@@ -146,7 +150,7 @@ Let's think step by step.
 
 ---
 
-### Role/Persona Prompting
+## Role/Persona Prompting
 
 定義： 指定模型扮演特定角色，以影響其語氣與回應方式。
 
@@ -158,7 +162,7 @@ Let's think step by step.
 
 ---
 
-### Contextual Prompting
+## Contextual Prompting
 
 定義： 給模型一些背景知識，引導他產出想要的結果。
 
@@ -171,7 +175,7 @@ Suggest 2 Japanese meals.
 
 ---
 
-### Step-Back Prompting
+## Step-Back Prompting
 
 定義：先問廣泛問題以啟動知識，再解任務。
 
@@ -193,7 +197,7 @@ Write a checklist for preparing for a job interview using the contents above.
 
 ---
 
-### Automatic Prompt Engineering
+## Automatic Prompt Engineering
 
 定義：用 AI 產生 Prompt。
 
@@ -206,7 +210,7 @@ Generate 5 different ways to ask:
 
 ---
 
-### 攻擊
+## 攻擊
 
 - Jail Breaking (越獄)： 繞過模型的安全限制，使其產生不當內容。
 - Prompt Injection (提示注入)： 將惡意指令注入提示中，操控模型行為。
@@ -218,7 +222,7 @@ Generate 5 different ways to ask:
 
 ---
 
-### 怎麼辦
+## 怎麼辦
 
 - 使用較新的模型： 新模型通常有更好的安全防護。
 - 權限最小化： 不要給予 LLM 過高的系統或資料存取權限。
@@ -232,7 +236,8 @@ routeAlias: API
 ---
 
 <div class="chapterTitle">
-API 串接
+
+# API 串接
 </div>
 
 ---
@@ -249,7 +254,7 @@ pip install google-genai
 
 ---
 
-### API rate
+## API rate
 
 <InvertDark>
   <Transform :scale="0.75">
@@ -259,7 +264,7 @@ pip install google-genai
 
 ---
 
-### 範例
+## 範例
 
 <VertCenter height="70%">
 
@@ -277,7 +282,7 @@ print(response.text)
 
 ---
 
-### 保護 API key
+## 保護 API key
 
 <VertCenter height="70%">
 <v-switch>
@@ -330,7 +335,7 @@ client = genai.Client()
 
 ---
 
-### 回顧上次社課
+## 回顧上次社課
 
 ![last_slide](/pics/last_slide.png)
 
@@ -338,11 +343,12 @@ client = genai.Client()
 layout: center
 ---
 
-### 這次要做的事情： 在後端 API (/api/transcribe) 接收一個 `wav` 聲音檔，讓 Gemini 理解語音內容後，根據內容選擇一張最適合的梗圖，最後回傳該圖片的編號。
+## 這次要做的事情：
+在後端 API (/api/transcribe) 接收一個 `wav` 聲音檔，讓 Gemini 理解語音內容後，根據內容選擇一張最適合的梗圖，最後回傳該圖片的編號。
 
 ---
 
-### 語音辨識
+## 語音辨識
 
 ```py {*}{lines:true}
 from google import genai
@@ -370,7 +376,7 @@ def transcribe_audio(audio_content):
 
 ---
 
-### Prompt
+## Prompt
 
 Load word list
 
@@ -484,7 +490,7 @@ SYSTEM_PROMPT_CONFIG = types.GenerateContentConfig(system_instruction=SYSTEM_PRO
 
 ---
 
-### API
+## API
 
 ```py {1-4|6-9|11-16|17-19|21|*}{lines:true}
 @app.route("/api/transcribe", methods=["POST"])                   # 定義一個路由，處理 POST 請求，路徑為 /api/transcribe
@@ -512,7 +518,7 @@ def transcribe():                                                 # 定義一個
 
 ---
 
-Demo Time
+## Demo Time
 
 ```py {*}{lines: true, maxHeight: '400px'}
 import json
@@ -610,14 +616,15 @@ routeAlias: ESP32
 ---
 
 <div class="chapterTitle">
-ESP32 程式撰寫
+
+# ESP32 程式撰寫
 </div>
 
 ---
 layout: center
 ---
 
-### 目標：
+## 目標：
 
 1. 在 ESP32 上建立一個簡易的 API Server，接收來自後端 (Flask) 的指令。
 2. 根據接收到的指令 (圖片編號)，控制步進馬達旋轉到對應梗圖的位置。
@@ -626,13 +633,13 @@ layout: center
 layout: center
 ---
 
-### 步進馬達
+## 步進馬達
 
 步進馬達（Stepper Motor）是一種**將電脈衝轉換為角位移的電動機**。每輸入一個脈衝訊號，馬達的軸就會**轉動一個固定的角度（步距角）**，因此能夠實現**精確的位置控制**，無需回授裝置（如編碼器）即可進行開迴路控制。
 
 ---
 
-## 特性
+### 特性
 
 - **高精度定位**：每一步對應固定角度，能夠準確控制轉動角度。
 - **易於控制**：透過數位訊號控制，適合與微控制器（如 Arduino、Raspberry Pi）配合使用。
@@ -641,7 +648,7 @@ layout: center
 
 ---
 
-## 應用
+### 應用
 
 - 3D 印表機
 - CNC 機器
@@ -651,13 +658,13 @@ layout: center
 
 ---
 
-## 28BYJ-48 步進馬達
+### 28BYJ-48 步進馬達
 
 ![Stepper](https://cdn-reichelt.de/bilder/web/artikel_ws/A300%2FME071_01.jpg?type=Product&)
 
 ---
 
-### API
+## API
 
 <VertCenter height="70%">
 
@@ -798,7 +805,7 @@ void handlePostSpin()
 layout: center
 ---
 
-### 回到 Python
+## 回到 Python
 
 ---
 
@@ -865,7 +872,8 @@ routeAlias: Docker
 ---
 
 <div class="chapterTitle">
-Docker
+
+# Docker
 </div>
 
 ---
@@ -1060,7 +1068,8 @@ routeAlias: Slidev
 ---
 
 <div class="chapterTitle">
-這篇簡報
+
+# 這篇簡報
 </div>
 
 ---
@@ -1073,7 +1082,7 @@ layout: center
 layout: center
 ---
 
-### 架構
+## 架構
 
 - 簡報內容： 使用 Markdown 語法撰寫
 - Markdown 轉 HTML： 使用 Slidev 將 Markdown 轉換成 SPA(Single-page application)。
@@ -1087,7 +1096,7 @@ layout: center
 
 ---
 
-## 什麼是 GitHub Actions？
+### 什麼是 GitHub Actions？
 
 - GitHub 推出的 CI/CD（持續整合／持續部署）工具
 - 可以讓你 自動化 軟體開發中的各種 工作流程，例如：程式碼檢查、測試、建構、部署等。
@@ -1095,7 +1104,7 @@ layout: center
 
 ---
 
-## 核心概念
+### 核心概念
 
 - Workflow：定義自動化流程的 YAML 檔。由一個或多個 Job 組成。
 - Event：觸發 Workflow 運行的動作，如 `push`、`schedule` (定時執行) 等。
@@ -1106,7 +1115,7 @@ layout: center
 
 ---
 
-## 範例
+### 範例
 
 在專案根目錄建立 `.github/workflows/hello.yml`
 
@@ -1128,7 +1137,7 @@ jobs:
 
 ---
 
-## 為什麼要使用 GitHub Actions？
+### 為什麼要使用 GitHub Actions？
 
 - 與 GitHub 原生整合
 - 輕鬆自動化測試與部署流程
@@ -1137,7 +1146,7 @@ jobs:
 
 ---
 
-## 應用情境
+### 應用情境
 
 - 程式碼檢查：自動檢查程式碼風格是否符合規範。
 - 單元測試：每次 push 或 PR 時自動執行測試。
@@ -1146,7 +1155,7 @@ jobs:
 
 ---
 
-### 我拿來做什麼
+## 我拿來做什麼
 
 當 push 時用 `Slidev` 生成靜態網頁並部署到 `GitHub Pages`
 
