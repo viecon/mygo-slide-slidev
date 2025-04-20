@@ -12,6 +12,8 @@ selectable: true
 favicon: '/pics/favicon.jpg'
 title: 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 titleTemplate: '陽明交大創客俱樂部社課 - AI 梗圖翻頁機'
+addons:
+  - "@katzumi/slidev-addon-qrcode"
 ---
 
 
@@ -23,9 +25,14 @@ titleTemplate: '陽明交大創客俱樂部社課 - AI 梗圖翻頁機'
 
 <div class="flex items-center">
   <div>
-    <Transform :scale="0.6">
-      <img src="/pics/qr_code.png" />
-    </Transform>
+      <InvertDark>
+      <QRCode
+        value="https://viecon.github.io/mygo-slide-slidev/"
+        :width="300"
+        :height="300"
+        color="aa55ff"
+        />
+      </InvertDark>
   </div>
   <div>
     <a href="https://viecon.github.io/mygo-slide-slidev/">https://viecon.github.io/mygo-slide-slidev/</a>
@@ -234,19 +241,11 @@ pip install google-genai
 
 ### API rate
 
-<LightOrDark>
-  <template #dark>
-    <Transform :scale="0.75">
-        <img src="/pics/gemini_API_rate_dark.png" />
-    </Transform>
-  </template>
-
-  <template #light>
-    <Transform :scale="0.75">
-          <img src="/pics/gemini_API_rate.png" />
-    </Transform>
-  </template>
-</LightOrDark>
+<InvertDark>
+  <Transform :scale="0.75">
+    <img src="/pics/gemini_API_rate.png" />
+  </Transform>
+</InvertDark>
 
 ---
 
