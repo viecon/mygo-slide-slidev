@@ -783,14 +783,14 @@ Docker
 ## Dockerfile
 
 ```dockerfile
-FROM python:3.10
+FROM python:3.12.10-slim
 
 WORKDIR /app
 
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir Flask google-generativeai
-
 COPY . .
+
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
 
@@ -875,6 +875,36 @@ docker compose up -build
 ```
 ````
 
+---
+
+### Docker Compose of this project
+
+```yaml
+services:
+  server:
+    build: .
+    container_name: server
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+```
+
+<v-switch>
+  <template #0> Without Docker Compose </template>
+  <template #1> With Docker Compose </template>
+</v-switch>
+
+
+````md magic-move {at:1}
+```sh
+docker build -t my-flask-app .
+docker run -p 5000:5000 my-flask-app
+```
+```sh
+docker compose --build
+```
+````
 ---
 layout: center
 ---
