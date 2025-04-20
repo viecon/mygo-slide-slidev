@@ -78,9 +78,12 @@ Prompt Engineering
 
 ### 什麼是大型語言模型?
 
+<VertCenter height="70%">
+
 > it’s a prediction engine. The model takes sequential text as an input and then predicts what the following token should be, based on the data it was trained on. The LLM is operationalized to do this over and over again, adding the previously predicted token to the end of the sequential text for predicting the following token. The next token prediction is based on the relationship between what’s in the previous tokens and what the LLM has seen during its training.
 
 **簡單來說：** LLM 就像一個超強的文字接龍大師，它根據你給它的文字序列（輸入），預測下一個最可能出現的字詞是什麼，這個預測是基於它在大量資料中學習到的模式。
+</VertCenter>
 
 ---
 
@@ -377,7 +380,7 @@ Load word list
 import json
 
 # 假設梗圖台詞與編號儲存在 words.json
-# 格式應為 {"0": "台詞一", "1": "台詞二", ...}
+# 格式應為 {"1": "台詞一", "2": "台詞二", ...}
 WORDS_JSON = open("words.json", "r", encoding="utf-8")
 WORDS = json.loads(WORDS_JSON.read())
 ```
