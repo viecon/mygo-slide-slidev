@@ -344,8 +344,10 @@ layout: center
 ```py {*}{lines:true}
 from google import genai
 from google.genai import types
+from dotenv import load_dotenv
 
-client = genai.Client(api_key="YOUR_API_KEY")
+load_dotenv()
+client = genai.Client()
 
 def transcribe_audio(audio_content):
     response = client.models.generate_content(
