@@ -21,7 +21,7 @@ addons:
 
 ---
 
-#### 簡報連結
+## 簡報連結
 
 <div class="flex items-center">
   <div>
@@ -82,8 +82,7 @@ routeAlias: Prompt Engineering
 ## 什麼是大型語言模型 (Large Language Models, LLMs)?
 
 <QuoteBlock>
-  it’s a prediction engine. The model takes sequential text as an input and then predicts what the following token should be, based on the data it was trained on. The LLM is operationalized to do this over and over again, adding the previously predicted token to the end of the sequential text for predicting the following token. The next token prediction is based on the relationship between what’s in the previous tokens and what the LLM has seen during its training.
-
+it’s a prediction engine. The model takes sequential text as an input and then predicts what the following token should be, based on the data it was trained on. The LLM is operationalized to do this over and over again, adding the previously predicted token to the end of the sequential text for predicting the following token. The next token prediction is based on the relationship between what’s in the previous tokens and what the LLM has seen during its training.
 </QuoteBlock>
 
 
