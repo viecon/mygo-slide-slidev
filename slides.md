@@ -17,8 +17,11 @@ addons:
   - slidev-component-progress
 ---
 
-# 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
+<section class="lead">
 
+# 陽明交大創客俱樂部社課
+# - AI 梗圖翻頁機
+</section>
 ---
 
 ## 簡報連結
