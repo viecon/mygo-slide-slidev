@@ -13,7 +13,6 @@ favicon: '/pics/favicon.jpg'
 title: 陽明交大創客俱樂部社課 - AI 梗圖翻頁機
 titleTemplate: '陽明交大創客俱樂部社課 - AI 梗圖翻頁機'
 addons:
-  - "@katzumi/slidev-addon-qrcode"
   - slidev-component-progress
 ---
 
@@ -31,10 +30,12 @@ addons:
       <InvertDark>
       <QRCode
         value="https://viecon.github.io/mygo-slide-slidev/"
-        :width="300"
-        :height="300"
+        :width="350"
+        :height="350"
         color="aa55ff"
-        />
+        darkColor="aa55ff"
+        dot-type="rounded"
+      />
       </InvertDark>
   </div>
   <div>
@@ -1206,3 +1207,14 @@ layout: center
 ---
 
 # END
+
+<InvertDark>
+<QRCode
+  value="https://youtu.be/XGxIE1hr0w4"
+  :width="350"
+  :height="350"
+  color="aa55ff"
+  darkColor="aa55ff"
+  dot-type="rounded"
+ />
+</InvertDark>
