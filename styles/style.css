@@ -44,8 +44,7 @@
   }
 
   img {
-    --uno: max-w-[85%] h-auto block my-[1.2em] mx-auto border
-      light:border-gray-200 dark:border-gray-600 rounded-[4px];
+    --uno: max-w-[85%] h-auto block my-[1.2em] mx-auto rounded-[4px];
   }
 
   blockquote {

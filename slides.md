@@ -1244,13 +1244,29 @@ layout: center
 
 # END
 
-<InvertDark>
-<QRCode
-  value="https://youtu.be/XGxIE1hr0w4"
-  :width="350"
-  :height="350"
-  color="aa55ff"
-  darkColor="aa55ff"
-  dot-type="rounded"
- />
-</InvertDark>
+
+
+<div class="flex items-center">
+  <div>
+    <InvertDark>
+      <QRCode
+        value="https://youtu.be/XGxIE1hr0w4"
+        :width="350"
+        :height="350"
+        color="aa55ff"
+        darkColor="aa55ff"
+        dot-type="rounded"
+      />
+    </InvertDark>
+  </div>
+  <div>
+    <InvertDark>
+      <Transform :scale=0.6>
+        <img src="/pics/QRCode_instruction.png">
+      </Transform>
+    </InvertDark>
+  </div>
+</div>
+
+
+
