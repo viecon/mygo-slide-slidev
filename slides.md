@@ -110,36 +110,42 @@ it’s a prediction engine. The model takes sequential text as an input and then
 
 定義： 直接給予模型任務指令，無需提供例子。
 
-<VertCenter height="70%">
-```text
-請將以下句子翻譯成法語：
-"The book is on the table."
-```
-</VertCenter>
 
+<VertCenter height="70%">
+  <CodeBlockResizer font-size="1.5em">
+
+  ```text
+  請將以下句子翻譯成法語：
+  "The book is on the table."
+  ```
+  </CodeBlockResizer>
+</VertCenter>
 ---
 
 ## One-Shot
 
 定義： 提供一個例子，幫助模型理解任務格式與期望輸出。
 
+<CodeBlockResizer font-size="1em">
+
 ```text
 英文：Hello → 法文：Bonjour
 英文：Goodbye → 法文：
 ```
-
-<br>
+</CodeBlockResizer>
 
 ## Few-Shot
 
 定義： 提供多個例子，幫助模型理解任務格式與期望輸出。
+
+<CodeBlockResizer font-size="1em">
 
 ```text
 英文：I love you → 法文：Je t'aime
 英文：Good morning → 法文：Bonjour
 英文：Thank you → 法文：
 ```
-
+</CodeBlockResizer>
 ---
 
 ## Chain-of-Thought (CoT)
@@ -147,10 +153,14 @@ it’s a prediction engine. The model takes sequential text as an input and then
 定義： 引導模型逐步推理，透過中間步驟來達成最終答案。
 
 <VertCenter height="70%">
+  <CodeBlockResizer font-size="1em">
+
 ```text
-There are 12 cookies. You eat 4 and give away 3. How many are left?
+There are 12 cookies. You eat 4 and give away 3. 
+How many are left?
 Let's think step by step.
 ```
+  </CodeBlockResizer>
 </VertCenter>
 
 ---
@@ -160,9 +170,12 @@ Let's think step by step.
 定義： 指定模型扮演特定角色，以影響其語氣與回應方式。
 
 <VertCenter height="70%">
+  <CodeBlockResizer font-size="1.1em">
+
 ```text
 你是一位歷史學家，請解釋羅馬帝國的衰落原因。
 ```
+  </CodeBlockResizer>
 </VertCenter>
 
 ---
@@ -172,10 +185,14 @@ Let's think step by step.
 定義： 給模型一些背景知識，引導他產出想要的結果。
 
 <VertCenter height="70%">
+  <CodeBlockResizer font-size="1em">
+
 ```text
-The user is traveling to Japan in winter and is allergic to seafood.
+The user is traveling to Japan in winter
+and is allergic to seafood.
 Suggest 2 Japanese meals.
 ```
+  </CodeBlockResizer>
 </VertCenter>
 
 ---
@@ -209,10 +226,13 @@ Write a checklist for preparing for a job interview using the contents above.
 定義：用 AI 產生 Prompt。
 
 <VertCenter height="70%">
+  <CodeBlockResizer font-size="1em">
+
 ```text
 Generate 5 different ways to ask:
 "Show me the weather forecast for Tokyo."
 ```
+  </CodeBlockResizer>
 </VertCenter>
 
 ---
@@ -255,10 +275,12 @@ routeAlias: API
 並安裝套件：
 
 <VertCenter height="70%">
+  <CodeBlockResizer font-size="1em">
 
 ```sh
 pip install google-genai
 ```
+  </CodeBlockResizer>
 </VertCenter>
 
 ---
@@ -276,6 +298,7 @@ pip install google-genai
 ## 範例
 
 <VertCenter height="70%">
+  <CodeBlockResizer font-size="1em">
 
 ```py {*}{lines: true}
 from google import genai
@@ -287,6 +310,7 @@ response = client.models.generate_content(
 )
 print(response.text)
 ```
+  </CodeBlockResizer>
 </VertCenter>
 
 ---
@@ -308,6 +332,8 @@ print(response.text)
   如果想上傳 `GitHub` 的話記得放進 `.gitignore`
    </template>
 </v-switch>
+
+<CodeBlockResizer font-size="0.8em">
 
 ````md magic-move {at:1}
 ```sh
@@ -340,6 +366,8 @@ load_dotenv()  # take environment variables
 client = genai.Client()
 ```
 ````
+</CodeBlockResizer>
+
 </VertCenter>
 
 ---
@@ -390,6 +418,7 @@ def transcribe_audio(audio_content):
 Load word list
 
 <VertCenter height="60%">
+  <CodeBlockResizer font-size="1em">
 
 ```py {*}{lines:true}
 import json
@@ -399,6 +428,7 @@ import json
 WORDS_JSON = open("words.json", "r", encoding="utf-8")
 WORDS = json.loads(WORDS_JSON.read())
 ```
+  </CodeBlockResizer>
 </VertCenter>
 
 ---
@@ -749,7 +779,8 @@ void setup()
 
 ### Control stepper
 
-<VertCenter height="75%">
+<VertCenter height="85%">
+  <CodeBlockResizer font-size="1em">
 
 ```cpp {1|3|4|5-6|7|8}{lines:true}
 void move_to(int tar)
@@ -762,6 +793,7 @@ void move_to(int tar)
     cur_pos = position[tar];
 }
 ```
+  </CodeBlockResizer>
 </VertCenter>
 
 ---
@@ -819,7 +851,8 @@ layout: center
 ---
 
 建立一個檔案 `esp32_control.py` 來處理與 ESP32 的通訊：
-<VertCenter height="80%">
+<VertCenter height="83%">
+<CodeBlockResizer font-size="0.9em">
 
 ```py {1|3-5|8-11|*}{lines:true}
 import requests
@@ -834,6 +867,7 @@ def control_esp(value):
     response = requests.post(f"{ESP_API_URL}", json=data)
     return response.json()
 ```
+</CodeBlockResizer>
 </VertCenter>
 
 ---
