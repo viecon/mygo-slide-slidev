@@ -33,30 +33,52 @@ const props = withDefaults(defineProps<Props>(), {
     cornerSquareType: 'extra-rounded',
     cornerDotType: 'square',
 });
+const darkenHexColor = (hex: string, percent: number): string | null => {
+    const validatedPercent = Math.max(0, Math.min(100, percent));
+    const factor = (100 - validatedPercent) / 100;
+
+    const cleanHex = hex.startsWith('#') ? hex.slice(1) : hex;
+
+    let fullHex = cleanHex;
+    if (cleanHex.length === 3) {
+        fullHex = cleanHex[0] + cleanHex[0] + cleanHex[1] + cleanHex[1] + cleanHex[2] + cleanHex[2];
+    }
+
+    if (fullHex.length !== 6 || !/^[0-9a-fA-F]{6}$/.test(fullHex)) {
+        console.error('Invalid color format:', hex);
+        return null;
+    }
+
+    let r = parseInt(fullHex.slice(0, 2), 16);
+    let g = parseInt(fullHex.slice(2, 4), 16);
+    let b = parseInt(fullHex.slice(4, 6), 16);
+
+    r = Math.round(r * factor);
+    g = Math.round(g * factor);
+    b = Math.round(b * factor);
+
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    b = Math.max(0, Math.min(255, b));
+
+    const toHex = (c: number) => ('0' + c.toString(16)).slice(-2);
+
+    return toHex(r) + toHex(g) + toHex(b);
+};
 
 const currentColor = computed(() => {
     return mode.value === 'dark' && props.darkColor !== undefined ? props.darkColor : props.color;
 });
 
 const offsetColor = computed<string>(() => {
-    const percent = 85;
-    const hexColor = currentColor.value.startsWith('#') ? currentColor.value.slice(1) : currentColor.value;
-    if (hexColor.length !== 6) {
-        console.error('Invalid color format', currentColor.value);
+    const darkenPercentage = 85;
+    const darkenedHex = darkenHexColor(currentColor.value, darkenPercentage);
+
+    if (darkenedHex === null) {
         return '000000';
     }
 
-    let r = parseInt(hexColor.slice(0, 2), 16),
-        g = parseInt(hexColor.slice(2, 4), 16),
-        b = parseInt(hexColor.slice(4, 6), 16);
-
-    r = Math.round(r * (100 - percent) / 100);
-    g = Math.round(g * (100 - percent) / 100);
-    b = Math.round(b * (100 - percent) / 100);
-
-    return ('0' + (r || 0).toString(16)).slice(-2) +
-        ('0' + (g || 0).toString(16)).slice(-2) +
-        ('0' + (b || 0).toString(16)).slice(-2);
+    return darkenedHex;
 });
 
 
