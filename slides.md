@@ -227,6 +227,8 @@ Generate 5 different ways to ask:
 
 [SITCON 2025 R2 ｜開發者的暗黑小紅帽：大野狼與 LLM ｜講者 slasho](https://youtu.be/ElhRVHl7xAc)
 
+[x1xhlol/system-prompts-and-models-of-ai-tools](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)
+
 ---
 
 ## 怎麼辦
