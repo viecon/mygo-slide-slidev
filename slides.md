@@ -203,10 +203,12 @@ Suggest 2 Japanese meals.
 
 Step-Back Prompt:
 
+<CodeBlockResizer font-size="1em">
+
 ```text
 What makes a job interview successful?
 ```
-
+</CodeBlockResizer>
 Answer:
 
 <QuoteBlock>
@@ -215,9 +217,13 @@ Good communication, confidence, and understanding of the company.
 
 **Main Prompt (using above as context):**
 
+<CodeBlockResizer font-size="1em">
+
 ```text
-Write a checklist for preparing for a job interview using the contents above.
+Write a checklist for preparing for a job interview 
+using the contents above.
 ```
+</CodeBlockResizer>
 
 ---
 
