@@ -1256,7 +1256,7 @@ layout: center
   <div>
     <InvertDark>
       <QRCode
-        value="https://youtu.be/XGxIE1hr0w4"
+        value="https://forms.gle/b7ZEyHtx4p2vU8fC8"
         :width="350"
         :height="350"
         color="aa55ff"
