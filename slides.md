@@ -28,18 +28,29 @@ addons:
 <div class="flex items-center">
   <div>
       <InvertDark>
-      <QRCode
-        value="https://viecon.github.io/mygo-slide-slidev/"
-        :width="350"
-        :height="350"
-        color="aa55ff"
-        darkColor="aa55ff"
-        dot-type="rounded"
-      />
+        <QRCode
+          value="https://viecon.github.io/mygo-slide-slidev/"
+          :width="300"
+          :height="300"
+          color="aa55ff"
+          darkColor="aa55ff"
+          dot-type="rounded"
+        />
       </InvertDark>
+      <a href="https://viecon.github.io/mygo-slide-slidev/">連結</a>
   </div>
   <div>
-    <a href="https://viecon.github.io/mygo-slide-slidev/">https://viecon.github.io/mygo-slide-slidev/</a>
+        <InvertDark>
+        <QRCode
+          value="https://hackmd.io/@goodaytoday/rJuqAMRyxe#/"
+          :width="300"
+          :height="300"
+          color="aa55ff"
+          darkColor="aa55ff"
+          dot-type="rounded"
+        />
+      </InvertDark>
+      <a href="https://hackmd.io/@goodaytoday/rJuqAMRyxe#/">連結</a>
   </div>
 </div>
 
