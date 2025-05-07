@@ -22,37 +22,23 @@ addons:
 # - AI 梗圖翻頁機
 </section>
 ---
+layout: center
+---
 
 ## 簡報連結
 
-<div class="flex items-center">
-  <div>
-      <InvertDark>
-        <QRCode
-          value="https://viecon.github.io/mygo-slide-slidev/"
-          :width="300"
-          :height="300"
-          color="aa55ff"
-          darkColor="aa55ff"
-          dot-type="rounded"
-        />
-      </InvertDark>
-      <a href="https://viecon.github.io/mygo-slide-slidev/">連結</a>
-  </div>
-  <div>
-        <InvertDark>
-        <QRCode
-          value="https://hackmd.io/@goodaytoday/rJuqAMRyxe#/"
-          :width="300"
-          :height="300"
-          color="aa55ff"
-          darkColor="aa55ff"
-          dot-type="rounded"
-        />
-      </InvertDark>
-      <a href="https://hackmd.io/@goodaytoday/rJuqAMRyxe#/">連結</a>
-  </div>
-</div>
+  <InvertDark>
+    <QRCode
+      value="https://viecon.github.io/mygo-slide-slidev/"
+      :width="300"
+      :height="300"
+      color="aa55ff"
+      darkColor="aa55ff"
+      dot-type="rounded"
+    />
+  </InvertDark>
+  <a href="https://viecon.github.io/mygo-slide-slidev/">連結</a>
+
 
 ---
 
@@ -852,13 +838,28 @@ void handlePostSpin()
     int position = doc["position"];
     Serial.println(position);
     // Respond with the received data
-    String jsonResponse = "{\"received\":\"received\"}";
+    String jsonResponse = "{\"status\":\"success\"}";
     server.send(200, "application/json", jsonResponse);
     move_to(position);
     Serial.println(cur_pos);
 }
 ```
 
+---
+
+### loop
+
+<VertCenter height="85%">
+  <CodeBlockResizer font-size="1em">
+
+```cpp
+void loop()
+{
+    server.handleClient();
+}
+```
+  </CodeBlockResizer>
+</VertCenter>
 ---
 layout: center
 ---
