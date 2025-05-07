@@ -1268,7 +1268,7 @@ layout: center
   <div>
     <InvertDark>
       <QRCode
-        value="https://forms.gle/b7ZEyHtx4p2vU8fC8"
+        value="https://forms.gle/PzdL2rvXgsnRQYYp7"
         :width="350"
         :height="350"
         color="aa55ff"
